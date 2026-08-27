@@ -1,0 +1,148 @@
+{
+  "slug": "2026-08-26",
+  "issue": 1,
+  "date": "2026-08-26",
+  "rangeStart": "2026-08-20",
+  "rangeEnd": "2026-08-26",
+  "title": "סיליקון משלהם, ומרכזי נתונים במסלול",
+  "intro": "השבוע התכנסו שני סיפורים שנראים נפרדים אבל הם אותו סיפור: מי שולט בחומרה שמריצה AI. OpenAI חשפה מדדים ראשונים לשבב הפנימי שלה, וספייס־אקס ואנבידיה הציגו לוח זמנים למרכזי נתונים במסלול. במקביל, ארה\"ב והאיחוד האירופי התחילו להפעיל בפועל מנגנוני פיקוח על מודלי חזית.",
+  "spotlight": [
+    {
+      "title": "השבב הראשון של OpenAI מנצח את אנבידיה במדדים הפנימיים",
+      "tag": "תשתית",
+      "summary": "OpenAI פרסמה תוצאות ביצועים ראשונות ל־Jalapeño, שבב ייעודי שפיתחה עם ברודקום להרצת מודלים (לא לאימון). לפי המדדים שלה, שבב של 700 ואט עקף מערכות של אנבידיה המדורגות ל־1,200 ואט — עד פי 3.6 מהר יותר, ועד פי 1.9 יותר עבודה לואט. החברה מציינת שהשתמשה במודל Astra ובCodex כדי לתכנן אותו, ושהדרך מתכנון ראשוני לייצור ארכה תשעה חודשים.",
+      "whyItMatters": "המדדים הם של OpenAI עצמה וטרם אומתו חיצונית. אבל אם הם מחזיקים, זה מוזיל לה טוקנים ומקצר את לולאת התכנון בין מודל לחומרה. OpenAI לא תמכור את השבב, וממשיכה להסתמך על אנבידיה לאימון. גוגל כבר שם עם TPU, ואנתרופיק, אמזון ומיקרוסופט בדרך.",
+      "source": "OpenAI · The Rundown AI",
+      "url": "https://openai.com/index/jalapeno-first-results/"
+    },
+    {
+      "title": "ספייס־אקס ואנבידיה: מרכזי נתונים במסלול, שיגור ראשון ברבעון הרביעי של 2027",
+      "tag": "חלל",
+      "summary": "השתיים מתכננות יחד את מטען המחשוב ל־Starmind AI1, הלוויין הראשון ברשת שתריץ עומסי AI בחלל. הדור הראשון יישא מעבדי Rubin ו־Vera של אנבידיה, עם פאנלים סולאריים באורך 75 מטר, פאנלי קירור בקרינה של 30 מטר והספק שיא של 250 קילוואט. הנתונים המעובדים ישודרו לכדור הארץ בקישורי לייזר אופטיים דרך מערך Starlink, ממסלול סינכרוני־שמש.",
+      "whyItMatters": "מאסק דיבר על היקף משמעותי ב־2028 ועל תוכנית שמגיעה עד מיליון לוויינים. זו הצטלבות ישירה בין תעשיית החלל לתעשיית ה־AI — הנחת תשתית מחשוב כשירות מסלולי, על כל מה שנגזר מזה לרגולציה, לספקטרום ולצפיפות במסלול.",
+      "source": "Bloomberg · The Rundown AI",
+      "url": "https://www.therundown.ai/articles/the-spacex-nvidia-partnership-heads-for-orbit"
+    },
+    {
+      "title": "פיקוח ממשלתי על מודלי חזית עובר מהצהרה לתהליך",
+      "tag": "מדיניות",
+      "summary": "בארה\"ב גובשה עד ה־1 באוגוסט מסגרת התנדבותית שבה מפתחי מודלי חזית פונים לממשל לפני שחרור. הליבה: תהליך בנצ'מרקינג מסווג שקובע אילו מודלים חוצים סף, וחלון של כשלושים יום לגישה ממשלתית למודל לפני ההשקה. במקביל, ב־2 באוגוסט נכנסו לתוקף חובות השקיפות שבסעיף 50 לחוק ה־AI האירופי, עם קנסות של עד 15 מיליון אירו או 3% מהמחזור העולמי.",
+      "whyItMatters": "החובות הכבדות באמת באירופה — אלה שחלות על מערכות בסיכון גבוה — נדחו ל־2 בדצמבר 2027. מה שנכנס עכשיו הוא שכבת שקיפות. בארה\"ב, אילינוי הפכה למדינה הראשונה שמחייבת ביקורות בטיחות עצמאיות של צד שלישי, מעבר למשטרי הגילוי של קליפורניה וניו יורק.",
+      "source": "European Commission · Latham & Watkins · CSIS",
+      "url": "https://digital-strategy.ec.europa.eu/en/news/commission-starts-enforcing-ai-act-rules-and-new-transparency-requirements-2-august"
+    }
+  ],
+  "sections": [
+    {
+      "heading": "מודלים ותשתית",
+      "items": [
+        {
+          "title": "אוגוסט שובר שיא: 11 מודלים מרכזיים ב־20 יום",
+          "summary": "מחמישה ספקים ומעלה, כולל DeepSeek-V4-Flash, GPT-5.6 Luna, Meta Muse Spark 1.1 ו־Thinking Machines Inkling. Z.AI שחררה את GLM-5.2 Turbo ב־17 באוגוסט.",
+          "source": "LLM Stats",
+          "url": "https://llm-stats.com/ai-news"
+        },
+        {
+          "title": "OpenAI חתכה 80% ממחיר GPT-5.6 Luna",
+          "summary": "ל־0.20 דולר למיליון טוקני קלט. חלק ממגמה רחבה יותר החודש של הוזלות חדות, הקשרים ארוכים יותר ופריסת סוכנים נרחבת.",
+          "source": "LLM Stats",
+          "url": "https://llm-stats.com/ai-news"
+        },
+        {
+          "title": "Perplexity ואנבידיה משיקות Portable Computer",
+          "summary": "גרסה מקומית של סוכן ה־Computer שרצה על חומרת DGX Spark של אנבידיה (4,699 דולר). המשתמש בוחר בין Qwen 3.8 27B ל־PPLX 27B, עבודה מקומית לא צורכת קרדיטים, וכל פנייה לענן דורשת אישור מפורש.",
+          "whyItMatters": "מהלך של פרטיות ועלות. ככל שמודלים פתוחים קטנים משתפרים, הענן הופך לגיבוי מזדמן במקום ברירת מחדל.",
+          "source": "Perplexity",
+          "url": "https://www.perplexity.ai/hub/blog/introducing-portable-computer-for-local-first-ai"
+        }
+      ]
+    },
+    {
+      "heading": "מחקר וכיוונים חדשים",
+      "items": [
+        {
+          "title": "סטארטאפ חדש מנסה להחליף טרנספורמרים בפיזיקה",
+          "summary": "פרופ' אנימה אננדקומאר מקאלטק והמהנדס בנדיקט ג'ניק השיקו את Accelerated Understanding — מודל שמנבא איך העולם הפיזי מתפתח, במקום איזו מילה באה אחר כך. הארכיטקטורה מבוססת על \"אופרטורים נוירונליים\" שעוקבים אחרי אירועים במרחב תלת־ממדי ובזמן. לפי החברה, המודל עיבד 5 טריליון נקודות נתונים בהרצה אחת. יעדים ראשונים: חומרים לשבבים, חיזוי מזג אוויר קיצוני ורובוטיקה.",
+          "whyItMatters": "השניים סירבו להצעה של 35% מ־Prometheus של בזוס כדי להקים את זה. Prometheus גייסה מאז 12 מיליארד דולר למטרה דומה. מרוץ ה־Physical AI נפתח, והמחלוקת היא אם הבסיס צריך להיות טקסט, וידאו או פיזיקה.",
+          "source": "Reuters",
+          "url": "https://www.reuters.com/business/ai-founders-who-walked-away-bezos-backed-prometheus-model-universe-2026-08-25/"
+        }
+      ]
+    },
+    {
+      "heading": "מדיניות ורגולציה",
+      "items": [
+        {
+          "title": "אילינוי: ביקורות בטיחות עצמאיות למודלי חזית",
+          "summary": "המדינה הראשונה בארה\"ב שמחייבת ביקורת צד שלישי, ולא רק גילוי נאות כמו בקליפורניה ובניו יורק. קולורדו הפכה לראשונה שמסדירה ספציפית צ'אטבוטים להגנה על קטינים.",
+          "whyItMatters": "המגמה בארה\"ב היא רגולציה ממוקדת מקרה־שימוש ברמת המדינה, בהיעדר מסגרת פדרלית מחייבת.",
+          "source": "CSIS",
+          "url": "https://www.csis.org/analysis/toward-federal-framework-lessons-state-and-international-frontier-ai-regulation"
+        },
+        {
+          "title": "מה נכנס לתוקף באירופה ומה נדחה",
+          "summary": "חובות השקיפות של סעיף 50 חלות מ־2 באוגוסט 2026. הדרישות התפעוליות למערכות בסיכון גבוה נדחו ל־2 בדצמבר 2027, בעקבות הסכמת המחוקקים במאי לפשט ולהאריך לוחות זמנים.",
+          "source": "Al Jazeera · Cooley",
+          "url": "https://www.aljazeera.com/news/2026/8/6/what-came-into-force-with-the-eus-ai-act-this-week-and-what-didnt"
+        }
+      ]
+    },
+    {
+      "heading": "כלכלה ושוק",
+      "items": [
+        {
+          "title": "אנתרופיק צפויה להציג למשקיעי הנפקה שוק פוטנציאלי של 30 טריליון דולר",
+          "summary": "לפי דיווח, גבוה מהנתון של 28.5 טריליון שספייס־אקס הציגה במאי.",
+          "source": "WSJ",
+          "url": "https://www.wsj.com/tech/ai/anthropic-expected-to-tell-investors-it-sees-over-30-trillion-in-potential-revenue-a611efea"
+        },
+        {
+          "title": "אנבידיה במגעים להשקעה של מיליארדים ב־Perplexity",
+          "summary": "סבב הון בשווי של למעלה מ־30 מיליארד דולר, ימים ספורים לפני ההשקה המשותפת של Portable Computer.",
+          "source": "The Rundown AI",
+          "url": "https://www.perplexity.ai/hub/blog/introducing-portable-computer-for-local-first-ai"
+        },
+        {
+          "title": "Cyera רכשה את Oasis Security במיליארד דולר",
+          "summary": "לניהול זהויות של סוכני תוכנה אוטונומיים. סטארטאפים בתחום סוכני ה־AI גייסו כ־1.8 מיליארד דולר בכתריסר עסקאות ביולי לבדו.",
+          "source": "Digital Applied",
+          "url": "https://www.digitalapplied.com/blog/ai-model-releases-august-2026-tracker"
+        },
+        {
+          "title": "ChatGPT הגיע לכמיליארד משתמשים שבועיים",
+          "summary": "",
+          "source": "LLM Stats",
+          "url": "https://llm-stats.com/ai-news"
+        }
+      ]
+    }
+  ],
+  "quickHits": [
+    {
+      "text": "אנתרופיק השיקה זיכרון אחיד ל־Claude בין צ'אט ל־Cowork, עם שמירת נושאים בזמן אמת באמצע שיחה",
+      "url": "https://claude.com/blog/claudes-memory-works-everywhere-and-you-decide-whats-in-it",
+      "source": "Anthropic"
+    },
+    {
+      "text": "אפל הציגה Mac Mini חדש ב־899 דולר, במיצוב של \"מחשב שולחני מוביל למחשוב סוכנים תמידי\", עם שבבי M6",
+      "url": "https://tech.therundown.ai/p/apple-mac-mini-makes-ai-comeback",
+      "source": "The Rundown Tech"
+    },
+    {
+      "text": "Google Cloud השיקה מהדורות Gemini Enterprise מותאמות לשירותים פיננסיים ולצוותים משפטיים, בתצוגה מקדימה",
+      "url": "https://cloud.google.com/blog/products/ai-machine-learning/introducing-gemini-enterprise-for-legal",
+      "source": "Google Cloud"
+    },
+    {
+      "text": "כריס מאלון, ראש מרכזי הנתונים של OpenAI, עזב את החברה — האחרון בשורת עזיבות בכירים בחודשים האחרונים",
+      "url": "https://www.bloomberg.com/news/articles/2026-08-25/openai-data-center-executive-chris-malone-departs-the-ai-startup",
+      "source": "Bloomberg"
+    }
+  ],
+  "sources": [
+    "The Rundown AI",
+    "The Rundown Tech",
+    "חיפוש רשת"
+  ],
+  "note": "הגיליון הראשון מסתמך בעיקר על חיפוש רשת, כי ההרשמות לניוזלטרים בוצעו רק ב־26 באוגוסט. מהגיליון הבא ואילך שבעת הניוזלטרים יזינו אותו במלואם."
+}
