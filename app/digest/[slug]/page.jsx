@@ -1,37 +1,24 @@
-import Digest from '../../_components/Digest';
+import Feed from '../../_components/Feed';
 import { getAllDigests, getDigest, formatRange } from '../../../lib/digests';
 
 export function generateStaticParams() {
   return getAllDigests().map((d) => ({ slug: d.slug }));
 }
 
-export function generateMetadata({ params }) {
-  const digest = getDigest(params.slug);
-  if (!digest) return { title: 'גיליון לא נמצא · רדאר AI' };
-
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
+  const digest = getDigest(slug);
+  if (!digest) return {};
   return {
-    title: `${digest.title} · רדאר AI`,
-    description: `גיליון ${digest.issue}, ${formatRange(digest.rangeStart, digest.rangeEnd)}`,
+    title: `גיליון ${digest.issue} · רדאר AI`,
+    description: digest.title,
   };
 }
 
-export default function DigestPage({ params }) {
-  const digest = getDigest(params.slug);
+export default async function DigestPage({ params }) {
+  const { slug } = await params;
+  const digest = getDigest(slug);
+  if (!digest) return <main style={{ padding: 40 }}>הגיליון לא נמצא.</main>;
 
-  if (!digest) {
-    return (
-      <main>
-        <div className="wrap">
-          <div className="issue-head">
-            <h1>הגיליון לא נמצא</h1>
-            <p className="intro">
-              <a href="/archive/">חזרה לארכיון</a>
-            </p>
-          </div>
-        </div>
-      </main>
-    );
-  }
-
-  return <Digest digest={digest} />;
+  return <Feed digest={digest} dateRange={formatRange(digest.rangeStart, digest.rangeEnd)} />;
 }

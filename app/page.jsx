@@ -1,21 +1,9 @@
-import Digest from './_components/Digest';
-import { getLatestDigest } from '../lib/digests';
+import Feed from './_components/Feed';
+import { getLatestDigest, formatRange } from '../lib/digests';
 
-export default function Home() {
+export default function HomePage() {
   const digest = getLatestDigest();
+  if (!digest) return <main style={{ padding: 40 }}>אין עדיין גיליונות.</main>;
 
-  if (!digest) {
-    return (
-      <main>
-        <div className="wrap">
-          <div className="issue-head">
-            <h1>עוד אין גיליונות</h1>
-            <p className="intro">הגיליון הראשון יופיע כאן ברגע שייווצר.</p>
-          </div>
-        </div>
-      </main>
-    );
-  }
-
-  return <Digest digest={digest} />;
+  return <Feed digest={digest} dateRange={formatRange(digest.rangeStart, digest.rangeEnd)} />;
 }

@@ -2,7 +2,14 @@ import './globals.css';
 
 export const metadata = {
   title: 'רדאר AI · מנהלת החלל',
-  description: 'ניוזלטר שבועי על מה שקורה בעולם הבינה המלאכותית, נאסף מהניוזלטרים המובילים ומחדשות הרשת.',
+  description:
+    'ניוזלטר שבועי על מה שקורה בעולם הבינה המלאכותית, נאסף מהניוזלטרים המובילים ומחדשות הרשת.',
+};
+
+export const viewport = {
+  themeColor: '#020309',
+  width: 'device-width',
+  initialScale: 1,
 };
 
 export default function RootLayout({ children }) {
@@ -12,24 +19,11 @@ export default function RootLayout({ children }) {
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700;900&family=Secular+One&display=swap"
           rel="stylesheet"
         />
       </head>
-      <body>
-        <header className="masthead">
-          <div className="masthead-inner">
-            <a className="masthead-title" href="/">
-              רדאר <span>AI</span>
-            </a>
-            <nav className="masthead-nav">
-              <a href="/">הגיליון האחרון</a>
-              <a href="/archive/">ארכיון</a>
-            </nav>
-          </div>
-        </header>
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
