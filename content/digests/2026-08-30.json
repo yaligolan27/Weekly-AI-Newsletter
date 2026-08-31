@@ -37,7 +37,8 @@
       "summary": "ב־27 באוגוסט פרסמה OpenAI מכתב פתוח עם 116 חותמים — בהם אנתרופיק, גוגל, מיקרוסופט, אמזון, Cloudflare, CrowdStrike, Mastercard, Visa ו־General Motors — שמזהיר כי בחודשים הקרובים התקפות סייבר מבוססות AI יהפכו נפוצות ומתוחכמות בהרבה. שלוש הנקודות שבליבו: להכיר בכך שנוהלי האבטחה הקיימים לא יספיקו, לחמש מגינים ביכולות AI, ולארגן תגובה קולקטיבית — כולל מימון ממשלתי לתשתיות קריטיות חסרות משאבים כמו בתי חולים ומתקני מים. באותו שבוע שחררה Z.ai את GLM-5.3, מודל של 753 מיליארד פרמטרים (40 מיליארד פעילים לטוקן), שרשם בבדיקות שלה 84.5% ב־CyberGym — הציון הטוב ביותר במדד לאיתור חולשות בקוד — ו־54.4% ב־ExploitBench, יותר מכפול מ־24.4% של קודמו. החברה מסרה שהעלייה ביכולת בניית הניצולים חרגה ממה שהתכוונה לפתח, ודחתה את שחרור המשקולות בכשבועיים לטובת הערכת בטיחות עם שותפי אבטחה.",
       "whyItMatters": "הוויכוח על משקולות פתוחות עם יכולות סייבר עדיין לא הוכרע לשום צד. מבחן משותף של מכוני הבטיחות של ארה\"ב ובריטניה ביולי מצא ש־Kimi K3 לא הצליח להריץ קוד שרירותי — התוצאה החמורה ביותר — באף אחת מ־41 משימות ExploitBench, בעוד שהמודלים הסגורים החזקים ביותר, עם מנגנוני ההגנה מנוטרלים, עשו זאת בממוצע 20 פעמים. כלומר היכולת קיימת בשני המחנות, והשאלה המעשית היא מי שולט בגישה אליה ובאיזה קצב.",
       "source": "OpenAI · CNBC · Z.ai",
-      "url": "https://openai.com/collective-cyberdefense/"
+      "url": "https://openai.com/collective-cyberdefense/",
+      "image": "/img/2026-08-30/sp2.jpg"
     }
   ],
   "sections": [
@@ -49,7 +50,9 @@
           "summary": "Z.ai אישרה ש־Ox Alpha, המודל האנונימי החינמי שהשתלט על OpenRouter, הוא GLM-5.3-Flash: מודל מעורבב־מומחים של 320 מיליארד פרמטרים עם 18 מיליארד פעילים, שמשקולותיו שוחררו ברישיון MIT. לפי דירוג הפלטפורמה זו ההשקה הגדולה בהיסטוריה שלה, עם נתוני שימוש שהכפילו את DeepSeek במקום השני. Artificial Analysis מדרגת אותו 57 במדד האינטליגנציה בעלות של 0.045 דולר למשימה, פי עשרה פחות ממודלים בדירוג דומה. Z.ai מסרה ששבוע השימוש החינמי רץ כולו על שבבים מתוצרת סין.",
           "whyItMatters": "אם הטענה על השבבים מדויקת — והיא לא אומתה חיצונית — צוואר הבקבוק המרכזי של סין ב־AI נראה פחות חונק ממה שהונח עד כה. זה משנה את החישוב שמאחורי בקרת הייצוא, לא רק את טבלת המחירים.",
           "source": "Z.ai",
-          "url": "https://z.ai/blog/glm-5.3-flash"
+          "url": "https://z.ai/blog/glm-5.3-flash",
+          "imageFrom": "https://www.scmp.com/tech/big-tech/article/3365433/zhipu-ai-shares-jump-viral-ox-alpha-model-revealed-glm-53-flash-chinese-chips",
+          "image": "/img/2026-08-30/s0i0.jpg"
         },
         {
           "title": "אנתרופיק חותמת על עסקת ענן של 45 מיליארד דולר עם Nscale",
@@ -75,7 +78,9 @@
           "summary": "המעבדה הציגה מתודולוגיה שמשתמשת בסביבות מוצפנות כדי למנוע זיהום של מדדי הערכה — כלומר לוודא שהמודל לא נחשף למבחן בזמן האימון.",
           "whyItMatters": "רוב הוויכוחים על ביצועי מודלים נעצרים בשאלה אם המדד עדיין מודד משהו. תשתית שמאפשרת לענות עליה בלי לסמוך על הצהרת המפתח היא תנאי מקדים לכל רגולציה שמתבססת על ספי ביצועים.",
           "source": "Google DeepMind",
-          "url": "https://deepmind.google/blog/piloting-the-worlds-first-double-blind-ai-evaluations/"
+          "url": "https://deepmind.google/blog/piloting-the-worlds-first-double-blind-ai-evaluations/",
+          "imageFrom": "https://thenewstack.io/google-double-blind-evaluation/",
+          "image": "/img/2026-08-30/s1i0.jpg"
         },
         {
           "title": "לשיפור עצמי רקורסיבי יש תקרה פיזית, לא רק תיאורטית",
@@ -100,7 +105,9 @@
           "title": "ביל גייטס: אין לעולם תוכנית למעבר ל־AI",
           "summary": "במאמר ארוך הוא מציע מס על טוקנים ועל רובוטים, ומשרות \"שמורות לבני אדם\" שיישמרו לעובדים אנושיים. גייטס, שהיה עד כה בצד האופטימי, מזהיר מפני אי־צדק ואבטלה רחבה.",
           "source": "Gates Notes",
-          "url": "https://www.gatesnotes.com/work/make-ai-work-for-everyone/reader/a-turbulent-ai-era-and-critical-choices-to-make"
+          "url": "https://www.gatesnotes.com/work/make-ai-work-for-everyone/reader/a-turbulent-ai-era-and-critical-choices-to-make",
+          "imageFrom": "https://www.cnn.com/2026/08/26/business/bill-gates-wants-limits-on-ai",
+          "image": "/img/2026-08-30/s2i0.jpg"
         },
         {
           "title": "אנתרופיק חוזרת לשוק החוזים הביטחוניים",
@@ -168,7 +175,9 @@
           "title": "Starcloud גייסה 250 מיליון דולר להרחבת מרכזי נתונים במסלול",
           "summary": "הרחבה לסבב A לפי שווי של 2.3 מיליארד דולר, שמביאה את סך הגיוס ל־450 מיליון. בין המשקיעים החדשים אנבידיה ו־Cisco Investments. הכסף מיועד למתקן ייצור גדול יותר ול־Starcloud-3, החללית הגדולה של החברה, שאמורה לטוס על Starship. השאיפה המוצהרת: מערך של 88 אלף לווייני מחשוב בהספק כולל של 20 ג'יגה־ואט.",
           "source": "Starcloud",
-          "url": "https://www.businesswire.com/news/home/20260821884035/en/Starcloud-Raises-$250-Million-at-$2.3-Billion-Valuation-to-Scale-AI-with-Orbital-Data-Centers"
+          "url": "https://www.businesswire.com/news/home/20260821884035/en/Starcloud-Raises-$250-Million-at-$2.3-Billion-Valuation-to-Scale-AI-with-Orbital-Data-Centers",
+          "imageFrom": "https://techcrunch.com/2026/08/21/starcloud-raises-200-million-for-orbital-data-centers-as-launch-options-dry-up/",
+          "image": "/img/2026-08-30/s4i3.jpg"
         }
       ]
     }
