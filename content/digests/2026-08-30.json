@@ -13,7 +13,8 @@
       "summary": "אנתרופיק פרסמה בתצוגת מחקר את Model Hardware Standard — מפרט שמאפשר לסוכני AI לאתר, ללמוד ולהפעיל מכשור פיזי שעד היום דרש קוד ייעודי: מיקרוסקופים, זרועות רובוטיות וציוד מעבדה. בעל הציוד מתאר אותו בשפה טבעית, והמפרט הופך את התיאור לקובץ ייחוס שהסוכן קורא. לפי החברה, ההתקנה יורדת משבועות של עבודת מומחים ל\"שעות או דקות\". באחד הניסויים Claude למד ליישר לייזר בניסוי וטעייה, ואז צמצם את השגרה לסקריפט שביצע את אותה עבודה במעבר אחד. שותפות ראשונות: Tecan, QIAGEN ו־AWS, ו־Hugging Face ו־Raspberry Pi מוסיפים תמיכה לקווי המוצר שלהם. שחרור בקוד פתוח מתוכנן במועד מאוחר יותר.",
       "whyItMatters": "MCP הפך תוך כשנה לשכבת החיבור בין סוכנים לתוכנה, בעיקר כי היה פשוט מספיק כדי שאחרים יאמצו אותו. אותו דפוס בחומרה נוגע ישירות לתשתית מחקר ובדיקות — ספסלי בדיקה, תאי סביבה, ציוד כיול. שווה לשים לב שזו תצוגת מחקר ולא תקן פתוח: הרישיון טרם פורסם, וההצטרפות של יצרני ציוד מעבר לשלושת השותפים הראשונים עדיין לא ידועה.",
       "source": "Anthropic",
-      "url": "https://www.anthropic.com/news/model-hardware-standard-research-preview"
+      "url": "https://www.anthropic.com/news/model-hardware-standard-research-preview",
+      "image": "/img/2026-08-30/sp0.jpg"
     },
     {
       "title": "אנבידיה רוכשת את Hugging Face ב־12.9 מיליארד דולר, לפי דיווח",
@@ -21,7 +22,14 @@
       "summary": "לפי דיווח של The Information, אנבידיה סיכמה לרכוש את Hugging Face — מאגר המודלים הפתוחים הגדול בעולם — ב־12.9 מיליארד דולר. הסכם סופי טרם נחתם, והעסקה עוד עשויה להתפרק. הגיוס האחרון של Hugging Face, ב־2023, היה 235 מיליון דולר לפי שווי של 4.5 מיליארד; בסוף השנה שעברה סירבה החברה להצעת השקעה של אנבידיה בסך 500 מיליון לפי שווי של 7 מיליארד. בסכום הנוכחי זו תהיה הרכישה הגדולה בתולדות אנבידיה, מעל 7 מיליארד ששילמה על Mellanox ב־2020. הדיווח הגיע יום אחרי דוח רבעוני של 96.2 מיליארד דולר הכנסות — עלייה של 106% שנה־על־שנה — ותחזית של 108 מיליארד לרבעון הבא.",
       "whyItMatters": "אנבידיה קונה את שכבת ההפצה של המודלים הפתוחים בדיוק כשהם מגדילים נתח: לפי Exponential View, חלקם בטוקנים שנצרכו ב־Vercel הגיע לשיא יומי של 62%, לעומת 28% חודשיים קודם. מבחינת רגולטורים, זו לא רק עסקת תוכן — זו שאלה מה קורה כשספק השבבים הדומיננטי מחזיק גם במאגר שממנו כולם מורידים משקולות.",
       "source": "The Information · CNBC",
-      "url": "https://www.cnbc.com/2026/08/27/nvidia-hugging-face-acquisition.html"
+      "url": "https://www.cnbc.com/2026/08/27/nvidia-hugging-face-acquisition.html",
+      "image": "/img/2026-08-30/sp1.jpg",
+      "links": [
+        {
+          "label": "הסבר: מה זה Hugging Face",
+          "url": "https://finance.yahoo.com/technology/ai/articles/heck-hugging-face-why-did-124000277.html"
+        }
+      ]
     },
     {
       "title": "116 חברות קוראות ל\"גל הגנה\", בשבוע שבו מודל פתוח קבע שיא בגילוי חולשות",
@@ -47,13 +55,15 @@
           "title": "אנתרופיק חותמת על עסקת ענן של 45 מיליארד דולר עם Nscale",
           "summary": "לפי דיווח, עסקה לשש שנים שבמסגרתה אנתרופיק תשכור כ־460 מגה־ואט של הספק מחשוב במתקן של Nscale בווסט וירג'יניה — צריכת חשמל שמקבילה לכ־345 אלף בתים בארה\"ב בכל רגע נתון. המתקן צפוי לעלות לאוויר בסוף 2027 ויתבסס על שבבי Vera Rubin של אנבידיה. זו העסקה האחרונה בשורה: מוקדם יותר החודש חתמה אנתרופיק על 10 מיליארד דולר עם Volta לקיבולת בנורווגיה. החברה הגישה תשקיף חסוי ל־SEC ביוני.",
           "source": "CNBC",
-          "url": "https://www.cnbc.com/2026/08/26/anthropic-and-nscale-strike-45-billion-cloud-deal-sources-say.html"
+          "url": "https://www.cnbc.com/2026/08/26/anthropic-and-nscale-strike-45-billion-cloud-deal-sources-say.html",
+          "image": "/img/2026-08-30/s0i1.jpg"
         },
         {
           "title": "גוגל משחררת את Gemini Omni 1.1 Flash",
           "summary": "עדכון למודל הווידאו עם הארכת סצנות ב־40 שניות, אינטרפולציה בין הפריים הראשון לאחרון והגדלה ל־4K. המודל עלה למקום הראשון בטבלת טקסט־לתמונה של Arena.",
           "source": "Google",
-          "url": "https://blog.google/innovation-and-ai/technology/developers-tools/build-with-gemini-omni-1-1-flash/"
+          "url": "https://blog.google/innovation-and-ai/technology/developers-tools/build-with-gemini-omni-1-1-flash/",
+          "image": "/img/2026-08-30/s0i2.jpg"
         }
       ]
     },
@@ -71,13 +81,15 @@
           "title": "לשיפור עצמי רקורסיבי יש תקרה פיזית, לא רק תיאורטית",
           "summary": "בגיליון השבועי שלו מסכם Exponential View עבודה של הפילוסוף טובי אורד, שמצביע על \"זמן הדור\" — כמה זמן לוקח למערכת להשלים סבב אחד שבו היא מסייעת לתכנן ולאמן את יורשתה — כגורם החוסם את התרחיש של אינטליגנציה שגדלה ללא גבול. ניסויים לוקחים זמן, הרצות אימון לוקחות זמן, ייצור שבבים לוקח זמן; ומעבר לכך חוסמים מהירות האור, חסם בקנשטיין על כמות המידע שנכנסת לנפח סופי, ומחיר האנרגיה של חישוב בלתי הפיך.",
           "source": "Toby Ord · Exponential View",
-          "url": "https://www.exponentialview.co/p/ev-599"
+          "url": "https://www.exponentialview.co/p/ev-599",
+          "image": "/img/2026-08-30/s1i1.jpg"
         },
         {
           "title": "אנתרופיק פותחת נתוני Claude לחוקרים חיצוניים",
           "summary": "סטנפורד, אוקספורד ו־METR קיבלו גישה לצורך מחקר. אחת הקבוצות מצאה שיותר ממחצית השיחות עוסקות במשימות בעלות סיכון גבוה, כמו ייעוץ משפטי ופיננסי.",
           "source": "Anthropic",
-          "url": "https://www.anthropic.com/research/enabling-independent-research"
+          "url": "https://www.anthropic.com/research/enabling-independent-research",
+          "image": "/img/2026-08-30/s1i2.jpg"
         }
       ]
     },
@@ -94,7 +106,8 @@
           "title": "אנתרופיק חוזרת לשוק החוזים הביטחוניים",
           "summary": "החברה מגייסת ראש מכירות לביטחון לאומי במטרה להחיות חוזים ביטחוניים, אחרי שהודרה בעבר על ידי משרד ההגנה האמריקאי בשל הגבלות שהציבה על אופני השימוש בטכנולוגיה שלה.",
           "source": "The American Prospect",
-          "url": "https://prospect.org/2026/08/27/anthropic-reenlists-for-war-defense-department-ai/"
+          "url": "https://prospect.org/2026/08/27/anthropic-reenlists-for-war-defense-department-ai/",
+          "image": "/img/2026-08-30/s2i1.jpg"
         }
       ]
     },
@@ -106,19 +119,22 @@
           "summary": "לפי Exponential View, Thomson Reuters פיתחה מודל פנימי ראשון מבוסס Qwen כדי לקצץ עלויות. Bridgewater, בעבודה עם Thinking Machines, כיוונה מודל Qwen פתוח על נתונים מתויגים בידי מומחים והביסה כל מודל חזית שבדקה במשימות סינון המידע הפנימיות שלה — כ־30% פחות שגיאות מהמודל הסגור הטוב ביותר, בכ־שבע אחוזים מעלות ההסקה.",
           "whyItMatters": "התבנית שחוזרת: החזית עדיין מנצחת בכלליות, אבל במשימה צרה ומוגדרת היטב, מודל קטן שכוונן על הנתונים שלכם עדיף — גם באיכות וגם בעלות. זה רלוונטי לכל ארגון עם דומיין מקצועי ומאגר נתונים משלו.",
           "source": "Exponential View",
-          "url": "https://www.exponentialview.co/p/ev-599"
+          "url": "https://www.exponentialview.co/p/ev-599",
+          "image": "/img/2026-08-30/s3i0.jpg"
         },
         {
           "title": "גוגל במגעים מתקדמים לרכוש את Mechanize ב־1.5 מיליארד דולר",
           "summary": "לפי דיווח. Mechanize מפתחת סביבות וירטואליות, מדדים ונתוני אימון שנועדו לאפשר לסוכנים להתמודד עם משימות מורכבות יותר.",
           "source": "gHacks",
-          "url": "https://www.ghacks.net/2026/08/26/google-reportedly-in-advanced-talks-for-1-5-billion-deal-with-ai-coding-startup-mechanize/"
+          "url": "https://www.ghacks.net/2026/08/26/google-reportedly-in-advanced-talks-for-1-5-billion-deal-with-ai-coding-startup-mechanize/",
+          "image": "/img/2026-08-30/s3i1.jpg"
         },
         {
           "title": "בארט זוף עוזב את OpenAI וחוזר לגוגל",
           "summary": "המייסד־שותף של Thinking Machines, שעבר ל־OpenAI השנה, מצטרף לגוגל כסגן נשיא למחקר ויעסוק בלמידת חיזוק ל־Gemini. הוא היה חוקר בגוגל בין 2016 ל־2022.",
           "source": "Barret Zoph",
-          "url": "https://x.com/barret_zoph/status/2092790775524516206"
+          "url": "https://x.com/barret_zoph/status/2092790775524516206",
+          "image": "/img/2026-08-30/s3i2.jpg"
         }
       ]
     },
@@ -130,20 +146,23 @@
           "summary": "דוח חדש של חברת המודיעין הסביבתי Mission Space מעריך שסופות שמש יגרמו ב־2026 לנזק כלכלי של 20.65 מיליארד דולר, ושהמספר יגיע ל־44.27 מיליארד בשנה עד 2035 — לא בגלל שמש פעילה יותר, אלא בגלל שיש יותר נכסים חשופים במסלול. רשתות החשמל נשארות הפריט הגדול (12.88 מיליארד ב־2026, 18.03 מיליארד ב־2035), אבל הצמיחה המהירה ביותר היא של מחשוב מסלולי: מ־130 מיליון דולר ב־2026 ל־3.26 מיליארד ב־2035. חלקם של ערוצי החלל והחלל העמוק בסך ההפסד הצפוי עולה מ־17% ל־42%.",
           "whyItMatters": "הדוח מצביע על נקודת כשל ספציפית: החוסן של מרכז נתונים מסלולי נשען על יתירות, שכפול ומעבר אוטומטי לגיבוי — ואירוע חלקיקים חמור אחד יכול לפגוע בכל הצמתים באותה שכונה מסלולית בו־זמנית, ולנטרל את היתירות של הרשת כולה. בנוסף, סופות שמש משבשות את דיוק חיזוי המסלולים ומייצרות גל שינויי מסלול שמזהם את הקטלוג. Mission Space מציינת שרוב החברות שמפעילות היום תשתית מסלולית טרם עברו מחזור שמש שלם של 11 שנה.",
           "source": "Mission Space · Payload",
-          "url": "https://payloadspace.com/space-weather-losses-to-double-by-2035-report-finds/"
+          "url": "https://payloadspace.com/space-weather-losses-to-double-by-2035-report-finds/",
+          "image": "/img/2026-08-30/s4i0.jpg"
         },
         {
           "title": "LeoLabs זכתה ב־20.68 מיליון דולר מחיל החלל האמריקאי עבור Scout",
           "summary": "הסכם Prototype OTA — מסלול רכש שעוקף את התהליך הרגיל כדי לאפשר לפנטגון לבחון טכנולוגיה במהירות. Scout הוא מכ\"ם נייד בגודל מכולת משא שאפשר להציב בכל מקום. הראשון הוצב ביוני באזור האינדו־פסיפי, ותוך שעות מהפעלתו החל לעקוב אחרי לווייני מודיעין סיניים ואחרי כלי הטיס החללי של סין. החברה עוקבת אחרי יותר מ־23 אלף עצמים במסלול, כולל פסולת בגודל 10 ס\"מ ומעלה.",
           "source": "Payload",
-          "url": "https://payloadspace.com/leolabs-wins-20-68m-space-force-award-for-scout/"
+          "url": "https://payloadspace.com/leolabs-wins-20-68m-space-force-award-for-scout/",
+          "image": "/img/2026-08-30/s4i1.jpg"
         },
         {
           "title": "NorthStar ו־Kepler ישתפו פעולה על מודעות מצבית מסלולית קנדית",
           "summary": "NorthStar Earth & Space ממונטריאול תתקין חיישני SDA על חלליות של Kepler Communications מטורונטו, במטרה לענות על \"הביקוש למודעות מצבית בזמן אמת\". NorthStar צפויה להנפיק דרך SPAC ברבעון הבא, על רקע עסקה של יותר מ־40 מיליון דולר קנדי (כ־29 מיליון דולר) שחתמה ביולי עם החטיבה החללית של חיל האוויר המלכותי הקנדי. ההודעה מגיעה כשספייס־אקס פותחת את קטלוג ה־SSA שלה בחינם למפעילי לוויינים קטנים.",
           "whyItMatters": "השוק הזה מתמלא בשחקנים מסחריים בקצב מהיר — מכ\"מים ניידים, חיישנים אופטיים על לוויינים קיימים, וקטלוג חינמי מספק השיגור הגדול. עבור סוכנות חלל לאומית זו בראש ובראשונה שאלת רכש: מה נכון לקנות כשירות, ומה חייב להישאר יכולת עצמאית.",
           "source": "Payload",
-          "url": "https://payloadspace.com/canadian-companies-partner-on-sda-sat-solution/"
+          "url": "https://payloadspace.com/canadian-companies-partner-on-sda-sat-solution/",
+          "image": "/img/2026-08-30/s4i2.jpg"
         },
         {
           "title": "Starcloud גייסה 250 מיליון דולר להרחבת מרכזי נתונים במסלול",

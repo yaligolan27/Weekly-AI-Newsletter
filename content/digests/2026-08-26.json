@@ -21,7 +21,8 @@
       "summary": "השתיים מתכננות יחד את מטען המחשוב ל־Starmind AI1, הלוויין הראשון ברשת שתריץ עומסי AI בחלל. הדור הראשון יישא מעבדי Rubin ו־Vera של אנבידיה, עם פאנלים סולאריים באורך 75 מטר, פאנלי קירור בקרינה של 30 מטר והספק שיא של 250 קילוואט. הנתונים המעובדים ישודרו לכדור הארץ בקישורי לייזר אופטיים דרך מערך Starlink, ממסלול סינכרוני־שמש.",
       "whyItMatters": "מאסק דיבר על היקף משמעותי ב־2028 ועל תוכנית שמגיעה עד מיליון לוויינים. זו הצטלבות ישירה בין תעשיית החלל לתעשיית ה־AI — הנחת תשתית מחשוב כשירות מסלולי, על כל מה שנגזר מזה לרגולציה, לספקטרום ולצפיפות במסלול.",
       "source": "Bloomberg · The Rundown AI",
-      "url": "https://www.therundown.ai/articles/the-spacex-nvidia-partnership-heads-for-orbit"
+      "url": "https://www.therundown.ai/articles/the-spacex-nvidia-partnership-heads-for-orbit",
+      "image": "/img/2026-08-26/sp1.jpg"
     },
     {
       "title": "פיקוח ממשלתי על מודלי חזית עובר מהצהרה לתהליך",
@@ -40,13 +41,15 @@
           "title": "אוגוסט שובר שיא: 11 מודלים מרכזיים ב־20 יום",
           "summary": "מחמישה ספקים ומעלה, כולל DeepSeek-V4-Flash, GPT-5.6 Luna, Meta Muse Spark 1.1 ו־Thinking Machines Inkling. Z.AI שחררה את GLM-5.2 Turbo ב־17 באוגוסט.",
           "source": "LLM Stats",
-          "url": "https://llm-stats.com/ai-news"
+          "url": "https://llm-stats.com/ai-news",
+          "image": "/img/2026-08-26/s0i0.jpg"
         },
         {
           "title": "OpenAI חתכה 80% ממחיר GPT-5.6 Luna",
           "summary": "ל־0.20 דולר למיליון טוקני קלט. חלק ממגמה רחבה יותר החודש של הוזלות חדות, הקשרים ארוכים יותר ופריסת סוכנים נרחבת.",
           "source": "LLM Stats",
-          "url": "https://llm-stats.com/ai-news"
+          "url": "https://llm-stats.com/ai-news",
+          "image": "/img/2026-08-26/s0i1.jpg"
         },
         {
           "title": "Perplexity ואנבידיה משיקות Portable Computer",
@@ -77,7 +80,8 @@
           "summary": "המדינה הראשונה בארה\"ב שמחייבת ביקורת צד שלישי, ולא רק גילוי נאות כמו בקליפורניה ובניו יורק. קולורדו הפכה לראשונה שמסדירה ספציפית צ'אטבוטים להגנה על קטינים.",
           "whyItMatters": "המגמה בארה\"ב היא רגולציה ממוקדת מקרה־שימוש ברמת המדינה, בהיעדר מסגרת פדרלית מחייבת.",
           "source": "CSIS",
-          "url": "https://www.csis.org/analysis/toward-federal-framework-lessons-state-and-international-frontier-ai-regulation"
+          "url": "https://www.csis.org/analysis/toward-federal-framework-lessons-state-and-international-frontier-ai-regulation",
+          "image": "/img/2026-08-26/s2i0.jpg"
         },
         {
           "title": "מה נכנס לתוקף באירופה ומה נדחה",
@@ -106,13 +110,15 @@
           "title": "Cyera רכשה את Oasis Security במיליארד דולר",
           "summary": "לניהול זהויות של סוכני תוכנה אוטונומיים. סטארטאפים בתחום סוכני ה־AI גייסו כ־1.8 מיליארד דולר בכתריסר עסקאות ביולי לבדו.",
           "source": "Digital Applied",
-          "url": "https://www.digitalapplied.com/blog/ai-model-releases-august-2026-tracker"
+          "url": "https://www.digitalapplied.com/blog/ai-model-releases-august-2026-tracker",
+          "image": "/img/2026-08-26/s3i2.jpg"
         },
         {
           "title": "ChatGPT הגיע לכמיליארד משתמשים שבועיים",
           "summary": "",
           "source": "LLM Stats",
-          "url": "https://llm-stats.com/ai-news"
+          "url": "https://llm-stats.com/ai-news",
+          "image": "/img/2026-08-26/s3i3.jpg"
         }
       ]
     }

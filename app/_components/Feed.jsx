@@ -16,6 +16,8 @@ function flatten(digest) {
       why: s.whyItMatters,
       source: s.source,
       url: s.url,
+      image: s.image,
+      links: s.links,
     });
   }
   for (const section of digest.sections ?? []) {
@@ -27,6 +29,8 @@ function flatten(digest) {
         why: it.whyItMatters,
         source: it.source,
         url: it.url,
+        image: it.image,
+        links: it.links,
       });
     }
   }
@@ -265,10 +269,15 @@ export default function Feed({ digest, dateRange }) {
             const cms = comments[id] || [];
             return (
               <section className="screen" key={id}>
+                {item.image && (
+                  <img className="item-photo" src={item.image} alt="" loading="lazy" />
+                )}
                 <div
                   className="item-bg"
                   style={{
-                    background: `radial-gradient(circle at 80% 15%, oklch(0.5 0.19 ${item.hue} / 0.55), transparent 55%), radial-gradient(circle at 15% 75%, oklch(0.45 0.2 ${(item.hue + 120) % 360} / 0.4), transparent 55%), linear-gradient(160deg, #0a0d20, #05060e)`,
+                    background: item.image
+                      ? `radial-gradient(circle at 80% 15%, oklch(0.5 0.19 ${item.hue} / 0.5), transparent 55%), radial-gradient(circle at 15% 75%, oklch(0.45 0.2 ${(item.hue + 120) % 360} / 0.35), transparent 55%), linear-gradient(160deg, rgba(10, 13, 32, 0.45), rgba(5, 6, 14, 0.55))`
+                      : `radial-gradient(circle at 80% 15%, oklch(0.5 0.19 ${item.hue} / 0.55), transparent 55%), radial-gradient(circle at 15% 75%, oklch(0.45 0.2 ${(item.hue + 120) % 360} / 0.4), transparent 55%), linear-gradient(160deg, #0a0d20, #05060e)`,
                   }}
                 />
                 <div className="grid-overlay" />
@@ -305,11 +314,18 @@ export default function Feed({ digest, dateRange }) {
                       <div className="why-box-inner"><b>למה זה חשוב · </b>{item.why}</div>
                     </div>
                   )}
-                  {item.url && (
+                  {(item.url || item.links?.length > 0) && (
                     <div className="item-links">
-                      <a className="link-pill" href={item.url} target="_blank" rel="noreferrer">
-                        למקור ↗
-                      </a>
+                      {item.url && (
+                        <a className="link-pill" href={item.url} target="_blank" rel="noreferrer">
+                          למקור ↗
+                        </a>
+                      )}
+                      {(item.links ?? []).map((lnk, li) => (
+                        <a className="link-pill" href={lnk.url} target="_blank" rel="noreferrer" key={li}>
+                          {lnk.label} ↗
+                        </a>
+                      ))}
                     </div>
                   )}
                 </div>
