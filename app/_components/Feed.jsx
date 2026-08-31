@@ -275,33 +275,24 @@ export default function Feed({ digest, dateRange }) {
                     background: `radial-gradient(circle at 80% 15%, oklch(0.5 0.19 ${item.hue} / 0.55), transparent 55%), radial-gradient(circle at 15% 75%, oklch(0.45 0.2 ${(item.hue + 120) % 360} / 0.4), transparent 55%), linear-gradient(160deg, #0a0d20, #05060e)`,
                   }}
                 />
-                <div className="grid-overlay" />
-                {!item.image && (
-                  <div className="item-num" style={{ WebkitTextStroke: `1.5px oklch(0.75 0.16 ${item.hue} / 0.55)` }}>
-                    {String(i + 1).padStart(2, '0')}
+                {item.image && (
+                  <div className="item-photo-band">
+                    {/* בלי lazy: בגלילת snap מהירה תמונה עצלה לא מספיקה להיצבע והמסך נראה ריק */}
+                    <img src={item.image} alt="" decoding="async" />
+                    <div
+                      className="item-photo-tint"
+                      style={{
+                        background: `linear-gradient(180deg, oklch(0.5 0.19 ${item.hue} / 0.3), oklch(0.45 0.2 ${(item.hue + 120) % 360} / 0.22))`,
+                      }}
+                    />
                   </div>
                 )}
+                <div className="grid-overlay" />
+                <div className="item-num" style={{ WebkitTextStroke: `1.5px oklch(0.85 0.14 ${item.hue} / 0.75)` }}>
+                  {String(i + 1).padStart(2, '0')}
+                </div>
                 <div className="item-fade" />
                 <div className="item-topline" style={{ background: `linear-gradient(90deg, oklch(0.75 0.16 ${item.hue}), transparent)` }} />
-
-                {item.image && (
-                  <figure
-                    className="item-figure"
-                    style={{
-                      borderColor: `oklch(0.75 0.16 ${item.hue} / 0.45)`,
-                      boxShadow: `0 10px 40px oklch(0.5 0.19 ${item.hue} / 0.35)`,
-                    }}
-                  >
-                    {/* בלי lazy: בגלילת snap מהירה תמונה עצלה לא מספיקה להיצבע והמסך נראה ריק */}
-                    <img className="figure-fill" src={item.image} alt="" aria-hidden="true" decoding="async" />
-                    <img className="figure-main" src={item.image} alt="" decoding="async" />
-                  </figure>
-                )}
-                {item.image && (
-                  <div className="item-num flow" style={{ WebkitTextStroke: `1.5px oklch(0.75 0.16 ${item.hue} / 0.55)` }}>
-                    {String(i + 1).padStart(2, '0')}
-                  </div>
-                )}
 
                 <ActionRail
                   id={id}
