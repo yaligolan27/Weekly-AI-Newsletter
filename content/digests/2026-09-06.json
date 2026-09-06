@@ -1,0 +1,246 @@
+{
+  "slug": "2026-09-06",
+  "issue": 3,
+  "date": "2026-09-06",
+  "rangeStart": "2026-08-31",
+  "rangeEnd": "2026-09-06",
+  "title": "OpenAI מכריזה על עידן ה-AGI, והקונגרס מגיש הצעת חוק לאסור אותו",
+  "intro": "אחרי חודש של שקט מטעמי בטיחות, ספטמבר נפתח בארבעה מודלי חזית בארבעה ימים — Fable 5.1, Muse Spark 1.3, Gemini 3.8 Flash, ואז GPT-6 Astra, שנשיא OpenAI קרא לו \"עידן ה-AGI\". באותו שבוע בדיוק הוגשה בקונגרס הצעת חוק שתאסור על פיתוח סופר-אינטליגנציה בעונש של עד 20 שנות מאסר. שני הצדדים מגיבים לאותם אירועי סייבר של החודש שעבר, ומגיעים למסקנות הפוכות.",
+  "spotlight": [
+    {
+      "title": "GPT-6 Astra: המודל הראשון שסווג \"Critical\" בסיכון סייבר",
+      "tag": "מודלים",
+      "summary": "OpenAI שחררה את GPT-6 Astra. לפי המדדים שלה: 99.9% ב-ARC-AGI-3 מול 7.8% של GPT-5.6 Sol, 98% ב-FrontierMath T4 ו-100% ב-ExploitBench. זהו גם המודל הראשון שסווג \"Critical\" בסיכון סייבר במסגרת ה-Preparedness Framework. המחיר: 10 ו-50 דולר למיליון טוקנים, פי 2.5 מקודמו. הנשיא גרג ברוקמן: \"ברוכים הבאים לעידן ה-AGI\".",
+      "whyItMatters": "במדד האינטליגנציה של Artificial Analysis הוא מגיע ל-61 בלבד — מאחורי Fable 5.1, Opus 5 ו-Muse Spark 1.3. חוקר הבטיחות ראיין גרינבלט טוען שהיעלמות התנהגויות בעייתיות ספציפיות מרמזת על טיפול בתסמינים, לא בשורש.",
+      "source": "OpenAI",
+      "url": "https://openai.com/index/gpt-6-astra/",
+      "imageFrom": "https://arcprize.org/blog/astra",
+      "links": [
+        {
+          "label": "ניתוח: Astra על ARC-AGI-3",
+          "url": "https://arcprize.org/blog/astra"
+        }
+      ],
+      "image": "/img/2026-09-06/sp0.jpg"
+    },
+    {
+      "title": "ארבעה מודלי חזית בארבעה ימים, והפער ביניהם מצטמצם לשבע נקודות",
+      "tag": "מודלים",
+      "summary": "אנתרופיק פתחה ב-1 בספטמבר עם Claude Fable 5.1, שקבע שיא של 66 במדד האינטליגנציה של Artificial Analysis ומפעיל את מסנן הבטיחות ב-60% פחות בעבודת סייבר וב-85% פחות בשאלות רפואה וביולוגיה בסיסיות. יומיים אחריו הגיעו Muse Spark 1.3 של מטא (62) ו-Gemini 3.8 Flash של גוגל (59), במחיר שלא השתנה: 0.75 ו-3.75 דולר למיליון טוקנים.",
+      "whyItMatters": "קורי קאבוקצ'וגלו מ-DeepMind הודה שג'מיני נמצא \"קצת מתחת לחזית\". צוקרברג הבטיח לשחרר את המשקולות של Muse Spark ורמז למודל גדול יותר בשם הקוד Watermelon. ארבעה מודלים, שבע נקודות הפרש.",
+      "source": "Anthropic · Meta · Google",
+      "url": "https://www.anthropic.com/claude-fable-and-mythos-5-1",
+      "links": [
+        {
+          "label": "Gemini 3.8 Flash",
+          "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/3-8-flash-and-3-8-flash-cyber/"
+        }
+      ],
+      "image": "/img/2026-09-06/sp1.jpg"
+    },
+    {
+      "title": "הצעת חוק בקונגרס תאסור סופר-אינטליגנציה בעונש של עד 20 שנות מאסר",
+      "tag": "מדיניות",
+      "summary": "ב-3 בספטמבר הציגו הסנאטור ברני סנדרס וחבר הקונגרס גרג קאסר את Ban Artificial Superintelligence Act. ההצעה אוסרת לצמיתות פיתוח והפעלה של AI סופר-אינטליגנטי בארה\"ב, ומקפיאה זמנית פיתוח מודלים מתקדמים עד שרגולטור פדרלי יקבע כללי בטיחות. העונש המוצע זהה לזה שעל פיתוח נשק גרעיני. ההצעה כוללת גם סוכנות פדרלית חדשה ברמת קבינט.",
+      "whyItMatters": "ההצעה הוגשה יום לפני ההכרזה על Astra. סנדרס נשען על אירועי הסייבר של החודשים האחרונים, ובראשם הפריצה שבה יותר מ-1,000 סוכנים תיאמו ביניהם באין רואה במשך שבועות.",
+      "source": "Senator Bernie Sanders",
+      "url": "https://www.sanders.senate.gov/press-releases/news-sanders-casar-introduce-legislation-to-ban-artificial-superintelligence-and-temporarily-pause-advanced-ai-development/",
+      "imageFrom": "https://thehill.com/policy/technology/6069131-sanders-casar-ai-superintelligence-ban/",
+      "image": "/img/2026-09-06/sp2.jpg"
+    }
+  ],
+  "sections": [
+    {
+      "heading": "מודלים ותשתית",
+      "items": [
+        {
+          "title": "אנבידיה מאשרת: רוכשת את Hugging Face ב-12.93 מיליארד דולר",
+          "summary": "אחרי שבוע של דיווחים, העסקה אושרה רשמית ב-3 בספטמבר. Hugging Face מארחת יותר מ-3 מיליון מודלים ו-500 אלף מאגרי נתונים, ומשרתת 18 מיליון מפתחים ו-200 אלף חברות. ג'נסן הואנג הבטיח שהפלטפורמה תישאר פתוחה ושלא יידרש חישוב של אנבידיה כדי לבנות עליה. זו הרכישה השנייה בגודלה בתולדות החברה, אחרי 20 מיליארד על נכסי Groq בסוף השנה שעברה.",
+          "whyItMatters": "אנבידיה מוסיפה תשלום של עד מיליארד דולר בבונוסי שימור לעובדים — סימן לכך שמה שנקנה כאן הוא בעיקר הקהילה והצוות, לא הקוד.",
+          "source": "NVIDIA",
+          "url": "https://blogs.nvidia.com/blog/nvidia-to-acquire-hugging-face/",
+          "imageFrom": "https://techcrunch.com/2026/09/03/nvidia-confirms-it-will-buy-hugging-face-for-12-9-billion/",
+          "image": "/img/2026-09-06/s0i0.jpg"
+        },
+        {
+          "title": "WeatherNext 3 של גוגל מחדד את התחזית פי 5 בעזרת נתוני לוויין חיים",
+          "summary": "מודל מזג האוויר החדש של DeepMind מרענן תחזיות מדי שעה על בסיס תמונות לוויין בזמן אמת, במקום ללמוד מהרצות פיזיקליות שמגיעות באיחור של כשש שעות. הרזולוציה משתפרת פי 5 ויורדת ל-5 ק\"מ, ברמה שמבחינה בין עמקים וקווי חוף. שגיאות המשקעים ירדו בעד 60% מול נתוני לוויין, ותחזיות גשם ליום קדימה השתפרו בעד 50%.",
+          "whyItMatters": "זו דוגמה נקייה לתבנית שחוזרת: הערך לא מגיע ממודל גדול יותר אלא מחיבור ישיר לחיישן. הפער בין תחזית שמבוססת על נתונים בני שש שעות לתחזית שמבוססת על נתונים בני שעה הוא פער בארכיטקטורת הנתונים, לא במודל.",
+          "source": "Google DeepMind",
+          "url": "https://blog.google/innovation-and-ai/models-and-research/google-deepmind/introducing-weathernext-3/",
+          "image": "/img/2026-09-06/s0i1.jpg"
+        },
+        {
+          "title": "MAI-Transcribe-2 של מיקרוסופט: תמלול ב-10 סנט לשעת אודיו",
+          "summary": "מודל זיהוי דיבור עם הפרדת דוברים, חותמות זמן ברמת המילה ו-60 שפות. לפי המדדים של מיקרוסופט הוא עוקף את Gemini 3.5 Transcribe, את GPT-Transcribe ואת Whisper V3-Large — במחיר ובמהירות. זהו המשך אסטרטגיה שבה מיקרוסופט בונה מודלים משלה מודליות אחר מודליות, ומחליפה בהדרגה רכיבים שרצו על טכנולוגיית OpenAI.",
+          "source": "Microsoft AI",
+          "url": "https://microsoft.ai/news/mai-transcribe-2-is-the-fastest-most-accurate-and-cheapest-speech-recognition-model-in-the-world/",
+          "imageFrom": "https://venturebeat.com/infrastructure/microsoft-ais-mai-transcribe-2-undercuts-openai-google-and-elevenlabs-on-price-and-speed",
+          "image": "/img/2026-09-06/s0i2.jpg"
+        }
+      ]
+    },
+    {
+      "heading": "מחקר וכיוונים חדשים",
+      "items": [
+        {
+          "title": "Astra המציא לעצמו שפה סימבולית — והשתמש בפחות פעולות מבני אדם",
+          "summary": "בבדיקת ARC-AGI-3 של קרן ARC Prize, המודל הופל לסביבות משחק שלא ראה מעולם. הוא השתמש בפחות פעולות מהחציון האנושי ב-96% מהשלבים שהשלים, בממוצע 51.7% פחות פעולות לשלב. במקום ניסוי וטעייה הוא ייצר ייצוג סימבולי דחוס של חוקי הסביבה, וניהל אותו כמודל עולם.",
+          "whyItMatters": "הציפייה של החוקרים הייתה ההפך: שגם כשמודל פותר סביבה חדשה הוא יגשש ויהיה פחות יעיל מאדם. יעילות גבוהה מהחציון האנושי בסביבה לא מוכרת אומרת שהוחלף כאן שלב יקר בתהליך הגילוי.",
+          "source": "ARC Prize",
+          "url": "https://arcprize.org/blog/astra",
+          "image": "/img/2026-09-06/s1i0.jpg"
+        },
+        {
+          "title": "פרומפט ממחקר בטיחות הפך לתבנית פריצה שעובדת על תשעה מודלים",
+          "summary": "חוקר בתוכנית MATS גילה שפרומפט שנועד לייצר תמלולים סינתטיים למחקר בטיחות ניתן להסבה לתבנית jailbreak אוניברסלית. מתוך 23 מודלים שנבדקו, בתשעת הפגיעים ביותר שיעור ההצלחה נע בין 84% ל-100%. המודלים היחידים שלא נפרצו לחלוטין היו הדגמים האחרונים של אנתרופיק ו-Muse Spark 1.1 של מטא.",
+          "whyItMatters": "הכלי שנבנה כדי למדוד בטיחות הוא גם הכלי שעוקף אותה. זה לא מקרה חריג אלא מבנה: אותה יכולת לייצר תרחישים מדויקים משמשת את שני הצדדים.",
+          "source": "LessWrong · MATS",
+          "url": "https://www.lesswrong.com/posts/hHk5CpiqZTBBiHmYt/from-safety-research-prompt-to-cross-model-universal"
+        },
+        {
+          "title": "אנתרופיק: חוקרים אוטומטיים תיקנו כשלי התאמה במודלים אחרים",
+          "summary": "מחקר חדש שמציג הצצה מוקדמת לאיך ייראה AI שמשפר את עצמו. החוקרים האוטומטיים של החברה הצליחו להפוך מודלים אחרים לבטוחים יותר בהתערבות אנושית מועטה, מה שמרמז שחלק גדל של המחקר והפיתוח של AI יוכל להתבצע בידי AI.",
+          "source": "Anthropic",
+          "url": "https://www.anthropic.com/research/automated-researchers-mitigate-alignment-failures",
+          "image": "/img/2026-09-06/s1i2.jpg"
+        }
+      ]
+    },
+    {
+      "heading": "מדיניות ורגולציה",
+      "items": [
+        {
+          "title": "שתי המעבדות שינו את מדיניות שמירת הנתונים לעסקים — בהפרש של יום",
+          "summary": "אנתרופיק מרככת את הכלל שמחייב מאז יוני שמירת שיחות עסקיות ל-30 יום: תוכנית Enterprise Frontier Safeguards תעביר את הנתונים לאחסון של הלקוח עצמו — S3, Azure Blob או Google Cloud Storage — עם מפתחות ההצפנה שלו. פותחה עם יותר מ-100 לקוחות, תושק בהדרגה בסתיו וללא תשלום. יום קודם פרסמה OpenAI הבטחת אפס שמירת נתונים ללקוחות עסקיים מאושרים.",
+          "whyItMatters": "אף אחת מהחברות לא הסבירה איך תוכנה שלהן סורקת נתונים שהן טוענות שאינן רואות. עבור ארגון עם מידע רגיש, \"לא נאמן על הנתונים שלך\" ו\"אין לנו את הנתונים שלך\" הן שתי הבטחות שונות.",
+          "source": "Anthropic · OpenAI · The Batch",
+          "url": "https://www.anthropic.com/news/enterprise-frontier-safeguards",
+          "links": [
+            {
+              "label": "רקע: הלקוחות שדחפו לשינוי",
+              "url": "https://www.cnbc.com/2026/09/01/anthropic-data-retention.html"
+            }
+          ],
+          "image": "/img/2026-09-06/s2i0.jpg"
+        },
+        {
+          "title": "חמש העיניים מציבות לראשונה גישה למודלי חזית כיעד מדיניות",
+          "summary": "ההצהרה המשותפת מהמפגש בסידני ב-25–26 באוגוסט, שנותחה השבוע ב-Import AI, כוללת שלוש פסקאות ייעודיות ל-AI. המדינות — אוסטרליה, קנדה, ניו זילנד, בריטניה וארה\"ב — התחייבו \"להעמיק את שיתוף הפעולה עם התעשייה\" כדי לאפשר \"גישה בזמן למודלי חזית\", ודנו במאפיינים של מודל שעשויים להצדיק פיקוח ממשלתי נוסף.",
+          "whyItMatters": "הצהרות קודמות התייחסו ל-AI כנושא למחקר או כמכפיל כוח לפשיעה. המעבר לשאלת גישה מעשית מסמן הכרה בכך ששירותי המודיעין תלויים במגזר הפרטי ליכולת שאין להם בבית.",
+          "source": "Australian Dept. of Home Affairs · Import AI",
+          "url": "https://www.homeaffairs.gov.au/about-us/our-portfolios/national-security/security-coordination/five-country-ministerial/five-country-ministerial-2026",
+          "image": "/img/2026-09-06/s2i1.jpg"
+        },
+        {
+          "title": "התייעצות הציבור על התוכנית הלאומית ל-AI בישראל נסגרת היום",
+          "summary": "התוכנית האסטרטגית הלאומית, שפרסמה מנהלת ה-AI במשרד ראש הממשלה ב-13 באוגוסט, מציבה יעד של לפחות 100 אלף מאיצי AI כאופק לאומי — בהובלת השוק הפרטי, עם בנייה ייעודית ראשונית של 5,000. היא כוללת גם מחשב קוונטי בטכנולוגיה ישראלית במודל \"מדינה כלקוח\" ומפעל שבבים ב-5 ננומטר או פחות. ההתייעצות נסגרת ב-6 בספטמבר, ואחריה ייבחרו המאיצים והמעבדות הראשונים.",
+          "whyItMatters": "התוכנית מצהירה שישראל לא תתחרה על גודל מודלי היסוד אלא על יישום מהיר בתחומים שבהם יש לה יתרון — סייבר, AI פיזי והטמעה בשירותים ציבוריים. זה קובע גם לאילו גופים ציבוריים תעמוד תשתית מחשוב.",
+          "source": "משרד ראש הממשלה",
+          "url": "https://www.gov.il/he/pages/dec4255-2026",
+          "imageFrom": "https://www.unite.ai/israel-sets-100000-accelerator-target-in-national-ai-plan/",
+          "image": "/img/2026-09-06/s2i2.jpg"
+        },
+        {
+          "title": "ממשלת ארה\"ב הגישה תמיכה ב-OpenAI בתביעת הזכויות של הניו יורק טיימס",
+          "summary": "בתדריך שהוגש ב-2 בספטמבר לבית המשפט הפדרלי במנהטן טוענת הממשלה שאימון מודלים על טקסטים מוגנים הוא שימוש \"טרנספורמטיבי באופן קיצוני\", ושדחיית טענת השימוש ההוגן תפגע בקידום המדע ובביטחון הלאומי. זו הפעם הראשונה שממשלת ארה\"ב מתערבת בגל התביעות של בעלי זכויות נגד חברות AI. לתדריך מעמד מייעץ בלבד.",
+          "source": "Reuters",
+          "url": "https://www.usnews.com/news/top-news/articles/2026-09-02/us-government-backs-openai-in-new-york-times-copyright-case",
+          "imageFrom": "https://www.ghacks.net/2026/09/03/trump-administration-backs-open-ai-in-new-york-times-copyright-case-calling-ai-training-fair-use/",
+          "image": "/img/2026-09-06/s2i3.jpg"
+        }
+      ]
+    },
+    {
+      "heading": "חלל ו-AI",
+      "items": [
+        {
+          "title": "מפת דרכים לכריית משאבים מחוץ לכדור הארץ: הצוואר הוא נתונים, לא חומרה",
+          "summary": "מאמר של חוקרים מהאקדמיה הסינית למדעים, TU München, בייהאנג ואחרים מגדיר שישה שלבים לכריית משאבים בירח ובאסטרואידים — מסקר מסלולי, דרך דגימה רובוטית בודדת, ועד נחילים רובוטיים לחציבה בקנה מידה תעשייתי. המסקנה: החומרה בדרך להבשלה, והרוברים המתוכננים ל-2026–2030 כבר מסמנים מעבר לניצול משאבים באתר. מה שחסר הוא נתונים.",
+          "whyItMatters": "מאגרי הנתונים של רובוטיקה חללית מאופיינים ב\"מחסור קיצוני ואי-רציפויות איכות\". הפתרון המוצע — מודלי עולם שממזגים מיפוי גיאומטרי-סמנטי עם חיזוי תגובת חומרים — הוא אותה בעיה שעומדת בפני כל מי שמפתח אוטונומיה לסביבה חסרת טלמטריה.",
+          "source": "arXiv · Import AI",
+          "url": "https://arxiv.org/abs/2608.21358",
+          "imageFrom": "https://importai.substack.com/p/import-ai-471-why-hugging-face-worries",
+          "image": "/img/2026-09-06/s3i0.jpg"
+        },
+        {
+          "title": "בלו אוריג'ין תבנה את רשת התקשורת של נאס\"א למאדים ב-700 מיליון דולר",
+          "summary": "חוזה במחיר קבוע בשווי מרבי של כ-700 מיליון דולר לאספקת מסלולן תקשורת למאדים עד 31 בדצמבר 2028. החללית תתבסס על פלטפורמת Blue Ring, שמשלבת הנעה סולארית-חשמלית וכימית, תקשורת בקצב גבוה ומחשוב על הסיפון, ויכולה לשאת יותר מ-1,000 ק\"ג מטען למסלול מאדים. בשונה מקודמיה היא תהיה נקייה ממכשור מדעי ותשמש רק כממסר.",
+          "whyItMatters": "מנהל נאס\"א ג'ארד אייזקמן שאל השבוע בקול רם כמה מיזמי ענק הסוכנות מנסה לפתור במקביל: חזרה לירח, בסיס, הנעה גרעינית, החלפת תחנת החלל בשירות מסחרי — ועכשיו גם כלי טיס מאוישים חדשים.",
+          "source": "NASA",
+          "url": "https://www.nasa.gov/news-release/nasa-selects-blue-origin-as-mars-telecommunications-network-provider/",
+          "links": [
+            {
+              "label": "אייזקמן: המסחרי לא יפתור כל בעיה של נאס\"א",
+              "url": "https://payloadspace.com/isaacman-commercial-wont-solve-every-nasa-problem/"
+            }
+          ],
+          "image": "/img/2026-09-06/s3i1.jpg"
+        }
+      ]
+    },
+    {
+      "heading": "כלכלה ושוק",
+      "items": [
+        {
+          "title": "Thinking Machines במגעים לגיוס מיליארד דולר לפי שווי של 40 מיליארד",
+          "summary": "לפי דיווח של The Information, קרן Accel אמורה להוביל את הסבב. השווי נמוך מ-50 מיליארד שהחברה ביקשה לפי דיווחים בסוף השנה שעברה. החברה של מירה מוראטי טרם השיקה מוצר צרכני.",
+          "source": "The Information · TechCrunch",
+          "url": "https://techcrunch.com/2026/09/03/accel-reportedly-in-talks-to-lead-1b-round-for-thinking-machines-at-40b-valuation/",
+          "image": "/img/2026-09-06/s4i0.jpg"
+        },
+        {
+          "title": "OpenAI מנתקת את Cursor אחרי שספייס-אקס רכשה אותה",
+          "summary": "ספייס-אקס השלימה ב-14 באוגוסט את רכישת Cursor ב-60 מיליארד דולר. OpenAI מסיימת בעקבותיה את החוזה שמעניק ל-Cursor גישה למודליה, ומנמקת: \"איננו יכולים להיות בטוחים שספייס-אקס תשתמש בטכנולוגיה שלנו בהתאם לתנאי השימוש, על בסיס הניסיון שלנו עם הפרות חוזה של חברותיו של אילון מאסק\". הניתוק ב-12 בנובמבר — ההתראה המרבית שהחוזה מאפשר.",
+          "whyItMatters": "תזכורת שכלי פיתוח שנשען על גישה למודל של צד שלישי הוא תלוי-חוזה, לא תלוי-טכנולוגיה. שינוי בעלות אצל הספק יכול לנתק כלי שצוות שלם בנה עליו את שגרת העבודה.",
+          "source": "OpenAI",
+          "url": "https://openai.com/index/our-decision-on-cursor-following-its-acquisition-by-spacex/",
+          "imageFrom": "https://www.cnbc.com/2026/08/29/openai-cursor-spacex-model-access.html",
+          "image": "/img/2026-09-06/s4i1.jpg"
+        }
+      ]
+    }
+  ],
+  "quickHits": [
+    {
+      "text": "בתי הספר הציבוריים בניו יורק אוסרים AI יוצר מגן חובה ועד כיתה ח' — מורטוריום של שנה שנוגע לכ-600 אלף תלמידים, ובמסגרתו יושבתו רכיבי ה-AI של יותר מ-38 תוכנות שהיו מאושרות עד כה",
+      "url": "https://www.nyc.gov/mayors-office/news/2026/09/mayor-mamdani-and-chancellor-samuels-put-students-first-with-nat",
+      "source": "City of New York"
+    },
+    {
+      "text": "Runway השיקה את GWM Worlds 2 — מודל עולם שמייצר סביבות אינטראקטיביות בזמן אמת ב-720p, 24 פריימים לשנייה ואודיו ב-48 קילוהרץ, ללא אורך סשן מוגדר מראש",
+      "url": "https://runway.com/research/introducing-gwm-worlds-2",
+      "source": "Runway"
+    },
+    {
+      "text": "World Labs של פיי-פיי לי הציגה את Atlas בגישה מוקדמת — הפיכת כמה תמונות טלפון לסצנה תלת-ממדית מלאה או לדקת וידאו עם שליטה במצלמה",
+      "url": "https://www.worldlabs.ai/blog/atlas",
+      "source": "World Labs"
+    },
+    {
+      "text": "יום חמישי נרשמו תקלות רוחביות אצל כל ספקי החזית בו-זמנית — OpenAI, אנתרופיק, xAI וגוגל — כולן עם בעיות יציבות לאורך היום",
+      "url": "https://mashable.com/tech/openai-chatgpt-outage-updates-grok-gemini",
+      "source": "Mashable"
+    },
+    {
+      "text": "שר המסחר האמריקאי האוורד לוטניק אמר ל-Axios \"אנחנו סומכים על אנתרופיק\", וציין שהחברה חזרה \"לצד הנכון\" של היחסים עם הממשל — כשנה אחרי שהודרה מחוזים ביטחוניים",
+      "url": "https://www.axios.com/2026/09/02/lutnick-anthropic-trump",
+      "source": "Axios"
+    },
+    {
+      "text": "הסטארטאפ הספרדי Multiverse Computing השיק את Quasar 438B, המודל האירופי המדורג הגבוה ביותר במדד האינטליגנציה של Artificial Analysis עם 43 נקודות",
+      "url": "https://multiversecomputing.com/resources/introducing-quasar-438b-europe-s-leading-ai-model",
+      "source": "Multiverse Computing"
+    }
+  ],
+  "sources": [
+    "The Rundown AI",
+    "TLDR AI",
+    "The Batch",
+    "Import AI",
+    "Exponential View",
+    "Payload",
+    "חיפוש רשת"
+  ],
+  "note": "הגרסאות הטקסטואליות של חמשת גיליונות Payload שהגיעו השבוע חזרו כולן עם אותו גוף הודעה — כתבה מאוקטובר 2023 על שיתוף פעולה בין Neuraspace ל-Arcsec. התוכן לא שימש את הגיליון, ומדור \"חלל ו-AI\" נשען על Import AI ועל חיפוש רשת. לא נמצא השבוע אייטם חדשותי בהצטלבות AI–חלל מישראל."
+}
