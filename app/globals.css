@@ -901,6 +901,139 @@ img.comment-avatar { object-fit: cover; }
 }
 .google-btn:hover { filter: brightness(0.95); }
 
+/* ---------- פביקון מקור ---------- */
+
+.item-source { display: inline-flex; align-items: center; gap: 6px; }
+
+.source-favicon {
+  width: 16px; height: 16px;
+  border-radius: 4px;
+  background: #fff;
+  object-fit: contain;
+  padding: 1px;
+  flex: none;
+}
+
+/* ---------- כותרות ארוכות ---------- */
+
+.item-content h2.h-l { font-size: 22px; }
+.item-content h2.h-xl { font-size: 19.5px; line-height: 1.25; }
+
+/* ---------- לייק: התפרצות ---------- */
+
+@keyframes likepop {
+  0% { transform: scale(1); }
+  35% { transform: scale(1.42); }
+  60% { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+@keyframes likering {
+  0% { box-shadow: 0 0 0 0 oklch(0.72 0.21 15 / 0.65); }
+  100% { box-shadow: 0 0 0 26px oklch(0.72 0.21 15 / 0); }
+}
+.rail-btn.pop { animation: likering 0.6s ease-out; }
+.rail-btn.pop svg { animation: likepop 0.55s cubic-bezier(0.2, 0.9, 0.3, 1.4); }
+
+/* ---------- פתיח: פודקאסט לגיליון ---------- */
+
+.cover-ctas { display: flex; gap: 10px; flex-wrap: wrap; }
+.podcast-cta {
+  border: none;
+  font-family: Rubik, sans-serif;
+  cursor: pointer;
+  background: linear-gradient(120deg, oklch(0.75 0.15 80), oklch(0.85 0.13 95));
+  box-shadow: 0 4px 24px oklch(0.8 0.15 85 / 0.35);
+}
+.cover .mini-player { z-index: 8; }
+
+/* ---------- דסקטופ: הילה ותוכן עניינים ---------- */
+
+.feed-glow, .feed-toc { display: none; }
+
+@media (min-width: 1000px) {
+  .feed-glow {
+    display: block;
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(58% 48% at 50% 45%, hsl(190 80% 45% / 0.3), transparent 70%);
+    filter: hue-rotate(var(--rot, 0deg));
+    transition: filter 0.8s ease;
+    z-index: 0;
+  }
+
+  .feed-phone {
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 0 0 1px rgba(235, 240, 255, 0.06), 0 30px 80px rgba(0, 0, 0, 0.6);
+  }
+
+  .feed-toc {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    inset-inline-start: calc(50% + 215px + 36px);
+    width: 280px;
+    max-height: 84vh;
+    overflow-y: auto;
+    padding: 12px 10px 10px;
+    border-radius: 18px;
+    background: rgba(9, 11, 26, 0.55);
+    border: 1px solid rgba(235, 240, 255, 0.08);
+    backdrop-filter: blur(12px);
+    z-index: 2;
+  }
+
+  .toc-head {
+    font-size: 11px;
+    letter-spacing: 1px;
+    font-weight: 700;
+    color: var(--ink-faint);
+    padding: 2px 10px 8px;
+  }
+
+  .toc-item {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    width: 100%;
+    text-align: start;
+    padding: 7px 10px;
+    border-radius: 10px;
+    border: none;
+    background: none;
+    color: var(--ink-dim);
+    font: 13px/1.35 Rubik, sans-serif;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .toc-item:hover { background: rgba(235, 240, 255, 0.06); color: var(--ink); }
+  .toc-item.current { background: rgba(235, 240, 255, 0.08); font-weight: 700; }
+
+  .toc-n {
+    flex: none;
+    width: 22px;
+    font-family: 'Secular One', Rubik, sans-serif;
+    font-size: 12px;
+    color: var(--ink-faint);
+    direction: ltr;
+    text-align: center;
+  }
+
+  .toc-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  .kbd-hint {
+    margin-top: 8px;
+    padding: 8px 10px 0;
+    font-size: 11px;
+    color: var(--ink-faint);
+    border-top: 1px solid rgba(235, 240, 255, 0.08);
+  }
+}
+
 /* ---------- נגישות: בלי אנימציות למי שביקש ---------- */
 
 @media (prefers-reduced-motion: reduce) {

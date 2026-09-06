@@ -40,6 +40,18 @@ function hueBg(hue) {
   return `radial-gradient(circle at 80% 15%, oklch(0.5 0.19 ${hue} / 0.55), transparent 55%), radial-gradient(circle at 15% 75%, oklch(0.45 0.2 ${(hue + 120) % 360} / 0.4), transparent 55%), linear-gradient(160deg, #0a0d20, #05060e)`;
 }
 
+/** פביקון של המקור לפי הדומיין של הכתבה */
+function faviconFor(url) {
+  try { return `https://www.google.com/s2/favicons?sz=64&domain=${new URL(url).hostname}`; } catch { return null; }
+}
+
+/** כותרת ארוכה מקבלת גופן קטן יותר כדי לא לדחוף את הגוף מהמסך */
+function titleClass(title) {
+  if (title.length > 75) return 'h-xl';
+  if (title.length > 55) return 'h-l';
+  return '';
+}
+
 /** "לפני 5 דק׳" וכדומה */
 function timeAgo(date) {
   if (!date) return 'עכשיו';
@@ -103,10 +115,10 @@ function GoogleIcon() {
 
 /* ---------- רכיבים ---------- */
 
-function ActionRail({ liked, likeCount, commentCount, onLike, onPanel, wa, podcast, onPodcast, playing }) {
+function ActionRail({ liked, likeCount, commentCount, onLike, onPanel, wa, podcast, onPodcast, playing, pop }) {
   return (
     <div className="action-rail">
-      <button className={'rail-btn' + (liked ? ' liked' : '')} onClick={onLike} aria-label="לייק">
+      <button className={'rail-btn' + (liked ? ' liked' : '') + (pop ? ' pop' : '')} onClick={onLike} aria-label="לייק">
         <HeartIcon filled={liked} />
       </button>
       <span className="rail-count">{likeCount}</span>
@@ -273,6 +285,10 @@ export default function Feed({ digest, dateRange }) {
   const endFiredRef = useRef(false);
 
   const [user, setUser] = useState(null);
+  const [currentIdx, setCurrentIdx] = useState(0);  // איזה מסך על המסך — לתוכן העניינים ולהילה
+  const [justLiked, setJustLiked] = useState(null); // אנימציית הלב
+  const [origin, setOrigin] = useState('');
+  const scrollRaf = useRef(null);
   const [likes, setLikes] = useState({});        // { itemId: { count, mine } }
   const [comments, setComments] = useState({});  // { itemId: [ {id,name,photo,text,when} ] }
   const [openPanel, setOpenPanel] = useState(null);
@@ -285,8 +301,15 @@ export default function Feed({ digest, dateRange }) {
   const COMMENTS_KEY = `radar-comments-${slug}`;
 
   /* --- מצב מקומי (בלי Firebase) --- */
+  /* קישור עמוק לאייטם: /digest/<slug>/#it3 */
+  useEffect(() => {
+    const m = window.location.hash.match(/^#(it\d+|quick|end)$/);
+    if (m) document.getElementById(m[1])?.scrollIntoView({ block: 'start' });
+  }, []);
+
   useEffect(() => {
     setPageUrl(window.location.href.split('#')[0]);
+    setOrigin(window.location.origin);
     if (firebaseEnabled) return;
     try {
       const l = JSON.parse(localStorage.getItem(LIKES_KEY) || '{}');
@@ -351,19 +374,41 @@ export default function Feed({ digest, dateRange }) {
     try { await signInWithGoogle(); } catch (e) { console.warn('התחברות נכשלה', e); }
   };
 
+  /* התפרצות הלב + רטט קצר בנייד */
+  const celebrateLike = (id) => {
+    setJustLiked(id);
+    setTimeout(() => setJustLiked((cur) => (cur === id ? null : cur)), 650);
+    try { navigator.vibrate?.(12); } catch { /* לא נתמך */ }
+  };
+
   const toggleLike = async (id) => {
+    const willLike = !likes[id]?.mine;
     if (!firebaseEnabled) {
-      const mine = !likes[id]?.mine;
-      const next = { ...likes, [id]: { count: mine ? 1 : 0, mine } };
+      const next = { ...likes, [id]: { count: willLike ? 1 : 0, mine: willLike } };
       setLikes(next);
       persist(LIKES_KEY, Object.fromEntries(Object.entries(next).map(([k, v]) => [k, v.mine])));
+      if (willLike) celebrateLike(id);
       return;
     }
     if (!user) return signIn();
     const fb = getFirebase();
     const ref = doc(fb.db, 'likes', `${slug}_${id}_${user.uid}`);
-    if (likes[id]?.mine) await deleteDoc(ref);
-    else await setDoc(ref, { slug, itemId: id, uid: user.uid, createdAt: serverTimestamp() });
+    if (!willLike) await deleteDoc(ref);
+    else {
+      celebrateLike(id);
+      await setDoc(ref, { slug, itemId: id, uid: user.uid, createdAt: serverTimestamp() });
+    }
+  };
+
+  /** קישור קבוע לאייטם באתר — לשיתוף */
+  const itemLink = (i) => `${origin}/digest/${slug}/#it${i}`;
+
+  /** הגוון של מסך לפי האינדקס שלו — להילה בדסקטופ ולתוכן העניינים */
+  const screenHue = (idx) => {
+    if (idx <= 0) return 195;
+    if (idx - 1 < items.length) return items[idx - 1].hue;
+    if (quickHits.length && idx - 1 === items.length) return HUES[items.length % HUES.length];
+    return 260;
   };
 
   const sendComment = async (id) => {
@@ -449,6 +494,13 @@ export default function Feed({ digest, dateRange }) {
 
   const onScroll = (e) => {
     const el = e.currentTarget;
+    if (!scrollRaf.current) {
+      scrollRaf.current = requestAnimationFrame(() => {
+        scrollRaf.current = null;
+        const idx = Math.round(el.scrollTop / el.clientHeight);
+        setCurrentIdx((c) => (c === idx ? c : idx));
+      });
+    }
     if (!endFiredRef.current && el.scrollTop + el.clientHeight >= el.scrollHeight - 40) {
       endFiredRef.current = true;
       fireConfetti();
@@ -463,8 +515,34 @@ export default function Feed({ digest, dateRange }) {
 
   const openItem = openDetail !== null ? items[Number(openDetail.replace('it', ''))] : null;
 
+  /* תוכן העניינים לדסקטופ — שורה לכל מסך, באותו סדר של הפיד */
+  const tocRows = [
+    { id: 'top', label: 'פתיח' },
+    ...items.map((it, i) => ({ id: `it${i}`, label: it.title, n: i + 1 })),
+    ...(quickHits.length ? [{ id: 'quick', label: 'בזקים' }] : []),
+    { id: 'end', label: 'סיום' },
+  ];
+
   return (
     <div className="feed-viewport">
+      <div className="feed-glow" style={{ '--rot': `${screenHue(currentIdx) - 190}deg` }} />
+
+      <nav className="feed-toc" aria-label="תוכן הגיליון">
+        <div className="toc-head">גיליון {digest.issue} · {tocRows.length - 2} אייטמים</div>
+        {tocRows.map((row, k) => (
+          <button
+            key={row.id}
+            className={'toc-item' + (k === currentIdx ? ' current' : '')}
+            style={k === currentIdx ? { color: `oklch(0.87 0.13 ${screenHue(k)})` } : undefined}
+            onClick={() => document.getElementById(row.id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+          >
+            <span className="toc-n">{row.n ? String(row.n).padStart(2, '0') : '·'}</span>
+            <span className="toc-label">{row.label}</span>
+          </button>
+        ))}
+        <div className="kbd-hint">↓ או רווח — הבא · ↑ — הקודם</div>
+      </nav>
+
       <div className="feed-phone">
         <div className="feed-scroller" ref={scrollerRef} onScroll={onScroll}>
 
@@ -499,10 +577,24 @@ export default function Feed({ digest, dateRange }) {
                 <span className="meta-dot" />
                 <span>סוואיפ למעלה</span>
               </div>
-              <a className="wa-cta" href={coverWa} target="_blank" rel="noreferrer">
-                שיתוף הגיליון בוואטסאפ ↗
-              </a>
+              <div className="cover-ctas">
+                <a className="wa-cta" href={coverWa} target="_blank" rel="noreferrer">
+                  שיתוף הגיליון בוואטסאפ ↗
+                </a>
+                {digest.podcast && (
+                  <button className="wa-cta podcast-cta" onClick={() => setPlaying(playing === 'issue' ? null : 'issue')}>
+                    🎧 האזינו לגיליון
+                  </button>
+                )}
+              </div>
             </div>
+            {playing === 'issue' && digest.podcast && (
+              <div className="mini-player">
+                <span>🎧 הגיליון בפודקאסט</span>
+                <audio controls autoPlay src={digest.podcast} onEnded={() => setPlaying(null)} />
+                <button className="panel-close" onClick={() => setPlaying(null)} aria-label="סגירה">✕</button>
+              </div>
+            )}
             <div className="scroll-hint">
               <div className="scroll-hint-mouse"><div className="scroll-hint-wheel" /></div>
             </div>
@@ -539,10 +631,11 @@ export default function Feed({ digest, dateRange }) {
                   commentCount={cms.length}
                   onLike={() => toggleLike(id)}
                   onPanel={() => openComments(id)}
-                  wa={waShare(item.title, item.url || pageUrl)}
+                  wa={waShare(`רדאר AI — ${item.title}`, itemLink(i))}
                   podcast={item.podcast}
                   playing={playing === id}
                   onPodcast={() => setPlaying(playing === id ? null : id)}
+                  pop={justLiked === id}
                 />
 
                 <div className="item-content">
@@ -550,9 +643,20 @@ export default function Feed({ digest, dateRange }) {
                     <span className="tag-pill" style={{ border: `1px solid oklch(0.75 0.16 ${item.hue})`, color: `oklch(0.87 0.12 ${item.hue})` }}>
                       {item.tag}
                     </span>
-                    <span className="item-source">{item.source}</span>
+                    <span className="item-source">
+                      {faviconFor(item.url) && (
+                        <img
+                          className="source-favicon"
+                          src={faviconFor(item.url)}
+                          alt=""
+                          loading="lazy"
+                          onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                        />
+                      )}
+                      {item.source}
+                    </span>
                   </div>
-                  <h2>{item.title}</h2>
+                  <h2 className={titleClass(item.title)}>{item.title}</h2>
                   <p>{item.body}</p>
                   <WhyBox item={item} clamp />
                   <div className="item-links">
