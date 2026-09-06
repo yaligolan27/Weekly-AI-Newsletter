@@ -434,8 +434,14 @@ export default function Feed({ digest, dateRange }) {
       if (e.target.tagName === 'INPUT') return;
       const el = scrollerRef.current;
       if (!el) return;
-      if (e.key === 'ArrowDown' || e.key === 'j') { e.preventDefault(); el.scrollBy({ top: el.clientHeight, behavior: 'smooth' }); }
-      if (e.key === 'ArrowUp' || e.key === 'k') { e.preventDefault(); el.scrollBy({ top: -el.clientHeight, behavior: 'smooth' }); }
+      /* scrollBy חלק מתנגש עם scroll-snap; גלילה אל המסך הבא עצמו עובדת */
+      const step = (dir) => {
+        const screens = [...el.querySelectorAll('.screen')];
+        const idx = Math.round(el.scrollTop / el.clientHeight);
+        screens[Math.min(screens.length - 1, Math.max(0, idx + dir))]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      };
+      if (e.key === 'ArrowDown' || e.key === 'j' || e.key === ' ') { e.preventDefault(); step(1); }
+      if (e.key === 'ArrowUp' || e.key === 'k') { e.preventDefault(); step(-1); }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
