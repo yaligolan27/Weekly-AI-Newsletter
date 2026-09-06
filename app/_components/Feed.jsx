@@ -1,6 +1,10 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import {
+  collection, query, where, onSnapshot, addDoc, setDoc, deleteDoc, doc, serverTimestamp,
+} from 'firebase/firestore';
+import { firebaseEnabled, getFirebase, signInWithGoogle, signOutUser, watchUser } from '../../lib/firebase';
 
 /* גווני oklch לסבב בין האייטמים — כל מסך מקבל צבע משלו */
 const HUES = [195, 320, 45, 260, 150, 15, 100, 225, 300, 70, 180, 340];
@@ -8,31 +12,22 @@ const HUES = [195, 320, 45, 260, 150, 15, 100, 225, 300, 70, 180, 340];
 /** משטח את מבנה הגיליון לרשימת מסכים: ספוטלייטים ואז אייטמי המדורים */
 function flatten(digest) {
   const items = [];
-  for (const s of digest.spotlight ?? []) {
-    items.push({
-      tag: s.tag,
-      title: s.title,
-      body: s.summary,
-      why: s.whyItMatters,
-      source: s.source,
-      url: s.url,
-      image: s.image,
-      links: s.links,
-    });
-  }
+  const pick = (it, tag) => ({
+    tag,
+    title: it.title,
+    body: it.summary,
+    why: it.whyItMatters,
+    expert: it.expertTake,
+    source: it.source,
+    url: it.url,
+    image: it.image,
+    links: it.links,
+    podcast: it.podcast,
+    notebook: it.notebook ?? digest.notebook,
+  });
+  for (const s of digest.spotlight ?? []) items.push(pick(s, s.tag));
   for (const section of digest.sections ?? []) {
-    for (const it of section.items) {
-      items.push({
-        tag: section.heading,
-        title: it.title,
-        body: it.summary,
-        why: it.whyItMatters,
-        source: it.source,
-        url: it.url,
-        image: it.image,
-        links: it.links,
-      });
-    }
+    for (const it of section.items) items.push(pick(it, section.heading));
   }
   return items.map((it, i) => ({ ...it, hue: HUES[i % HUES.length] }));
 }
@@ -40,6 +35,26 @@ function flatten(digest) {
 function waShare(text, url) {
   return 'https://wa.me/?text=' + encodeURIComponent(text + '\n' + url);
 }
+
+function hueBg(hue) {
+  return `radial-gradient(circle at 80% 15%, oklch(0.5 0.19 ${hue} / 0.55), transparent 55%), radial-gradient(circle at 15% 75%, oklch(0.45 0.2 ${(hue + 120) % 360} / 0.4), transparent 55%), linear-gradient(160deg, #0a0d20, #05060e)`;
+}
+
+/** "לפני 5 דק׳" וכדומה */
+function timeAgo(date) {
+  if (!date) return 'עכשיו';
+  const s = Math.floor((Date.now() - date.getTime()) / 1000);
+  if (s < 60) return 'עכשיו';
+  const m = Math.floor(s / 60);
+  if (m < 60) return `לפני ${m} דק׳`;
+  const h = Math.floor(m / 60);
+  if (h < 24) return `לפני ${h} שע׳`;
+  const d = Math.floor(h / 24);
+  if (d < 7) return `לפני ${d} ימים`;
+  return date.toLocaleDateString('he-IL');
+}
+
+/* ---------- אייקונים ---------- */
 
 function HeartIcon({ filled }) {
   return (
@@ -66,7 +81,29 @@ function SendIcon() {
   );
 }
 
-function ActionRail({ id, liked, likeCount, commentCount, onLike, onPanel, wa }) {
+function HeadphonesIcon() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M3 18v-6a9 9 0 0 1 18 0v6" />
+      <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" />
+    </svg>
+  );
+}
+
+function GoogleIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.4h6.5a5.6 5.6 0 0 1-2.4 3.6v3h3.9c2.3-2.1 3.5-5.2 3.5-8.7z" />
+      <path fill="#34A853" d="M12 24c3.2 0 6-1.1 8-2.9l-3.9-3a7.2 7.2 0 0 1-10.8-3.8H1.3v3.1A12 12 0 0 0 12 24z" />
+      <path fill="#FBBC05" d="M5.3 14.3a7.2 7.2 0 0 1 0-4.6V6.6H1.3a12 12 0 0 0 0 10.8l4-3.1z" />
+      <path fill="#EA4335" d="M12 4.8c1.8 0 3.4.6 4.6 1.8l3.5-3.5A12 12 0 0 0 1.3 6.6l4 3.1A7.2 7.2 0 0 1 12 4.8z" />
+    </svg>
+  );
+}
+
+/* ---------- רכיבים ---------- */
+
+function ActionRail({ liked, likeCount, commentCount, onLike, onPanel, wa, podcast, onPodcast, playing }) {
   return (
     <div className="action-rail">
       <button className={'rail-btn' + (liked ? ' liked' : '')} onClick={onLike} aria-label="לייק">
@@ -77,6 +114,11 @@ function ActionRail({ id, liked, likeCount, commentCount, onLike, onPanel, wa })
         <CommentIcon />
       </button>
       <span className="rail-count">{commentCount}</span>
+      {podcast && (
+        <button className={'rail-btn rail-podcast' + (playing ? ' playing' : '')} onClick={onPodcast} aria-label="האזנה לפודקאסט">
+          <HeadphonesIcon />
+        </button>
+      )}
       <a className="rail-wa" href={wa} target="_blank" rel="noreferrer" aria-label="שיתוף בוואטסאפ">
         <SendIcon />
       </a>
@@ -84,7 +126,13 @@ function ActionRail({ id, liked, likeCount, commentCount, onLike, onPanel, wa })
   );
 }
 
-function CommentsPanel({ comments, text, onText, onSend, onClose }) {
+function Avatar({ name, photo }) {
+  return photo
+    ? <img className="comment-avatar" src={photo} alt="" referrerPolicy="no-referrer" />
+    : <div className="comment-avatar">{(name || '?')[0]}</div>;
+}
+
+function CommentsPanel({ comments, text, onText, onSend, onClose, user, onSignIn, cloud }) {
   return (
     <>
       <div className="panel-scrim" onClick={onClose} />
@@ -96,8 +144,8 @@ function CommentsPanel({ comments, text, onText, onSend, onClose }) {
         <div className="panel-body">
           {comments.length === 0 && <div className="panel-empty">עדיין אין תגובות — פתחו את הדיון</div>}
           {comments.map((cm, i) => (
-            <div className="comment" key={i}>
-              <div className="comment-avatar">{cm.name[0]}</div>
+            <div className="comment" key={cm.id ?? i}>
+              <Avatar name={cm.name} photo={cm.photo} />
               <div>
                 <div className="comment-meta">
                   <span className="comment-name">{cm.name}</span>
@@ -108,68 +156,233 @@ function CommentsPanel({ comments, text, onText, onSend, onClose }) {
             </div>
           ))}
         </div>
-        <div className="panel-input-row">
-          <input
-            className="panel-input"
-            value={text}
-            onChange={(e) => onText(e.target.value)}
-            onKeyDown={(e) => { if (e.key === 'Enter') onSend(); }}
-            placeholder="כתבו תגובה..."
-          />
-          <button className="panel-send" onClick={onSend}>שליחה</button>
+        {cloud && !user ? (
+          <div className="panel-signin">
+            <span>כדי להגיב צריך להתחבר</span>
+            <button className="google-btn" onClick={onSignIn}><GoogleIcon /> התחברות עם Google</button>
+          </div>
+        ) : (
+          <div className="panel-input-row">
+            <input
+              className="panel-input"
+              value={text}
+              onChange={(e) => onText(e.target.value)}
+              onKeyDown={(e) => { if (e.key === 'Enter') onSend(); }}
+              placeholder={user ? `תגובה בתור ${user.name}...` : 'כתבו תגובה...'}
+              maxLength={1000}
+            />
+            <button className="panel-send" onClick={onSend}>שליחה</button>
+          </div>
+        )}
+      </div>
+    </>
+  );
+}
+
+/** קופסת המשמעויות — דעת מומחה מפודקאסט אם יש, אחרת הניתוח שלנו */
+function WhyBox({ item, clamp }) {
+  const hue = item.hue;
+  if (item.expert) {
+    return (
+      <div className="why-box expert" style={{ borderInlineStart: `3px solid oklch(0.75 0.16 ${hue})` }}>
+        <div className={clamp ? 'why-box-inner' : ''}>
+          <b>🎙️ {item.expert.name} · {item.expert.show}</b>{' '}
+          {item.expert.take}
+        </div>
+      </div>
+    );
+  }
+  if (item.why) {
+    return (
+      <div className="why-box" style={{ borderInlineStart: `3px solid oklch(0.75 0.16 ${hue})` }}>
+        <div className={clamp ? 'why-box-inner' : ''}><b>למה זה חשוב · </b>{item.why}</div>
+      </div>
+    );
+  }
+  return null;
+}
+
+/** פאנל הפירוט — הטקסט המלא, כל הקישורים, פודקאסט ו-NotebookLM */
+function DetailPanel({ item, index, onClose }) {
+  const hue = item.hue;
+  return (
+    <>
+      <div className="panel-scrim" onClick={onClose} />
+      <div className="panel detail">
+        <div className="panel-head">
+          <span className="tag-pill" style={{ border: `1px solid oklch(0.75 0.16 ${hue})`, color: `oklch(0.87 0.12 ${hue})` }}>
+            {String(index + 1).padStart(2, '0')} · {item.tag}
+          </span>
+          <button className="panel-close" onClick={onClose} aria-label="סגירה">✕</button>
+        </div>
+        <div className="panel-body detail-body">
+          <h2>{item.title}</h2>
+          <div className="detail-source">{item.source}</div>
+          <p>{item.body}</p>
+
+          {item.expert && (
+            <div className="why-box expert" style={{ borderInlineStart: `3px solid oklch(0.75 0.16 ${hue})` }}>
+              <b>🎙️ {item.expert.name} · {item.expert.show}</b>{' '}
+              {item.expert.take}
+              {item.expert.episodeUrl && (
+                <a className="expert-link" href={item.expert.episodeUrl} target="_blank" rel="noreferrer">לפרק המלא ↗</a>
+              )}
+            </div>
+          )}
+          {item.why && (
+            <div className="why-box" style={{ borderInlineStart: `3px solid oklch(0.75 0.16 ${hue})` }}>
+              <b>למה זה חשוב · </b>{item.why}
+            </div>
+          )}
+
+          {item.podcast && (
+            <div className="detail-podcast">
+              <div className="detail-label">🎧 פודקאסט על האייטם</div>
+              <audio controls preload="none" src={item.podcast} />
+            </div>
+          )}
+
+          <div className="item-links">
+            {item.url && <a className="link-pill" href={item.url} target="_blank" rel="noreferrer">למקור ↗</a>}
+            {(item.links ?? []).map((lnk, li) => (
+              <a className="link-pill" href={lnk.url} target="_blank" rel="noreferrer" key={li}>{lnk.label} ↗</a>
+            ))}
+            {item.notebook && (
+              <a className="link-pill notebook" href={item.notebook} target="_blank" rel="noreferrer">
+                שאלו את NotebookLM ↗
+              </a>
+            )}
+          </div>
         </div>
       </div>
     </>
   );
 }
 
+/* ---------- הפיד ---------- */
+
 export default function Feed({ digest, dateRange }) {
   const items = flatten(digest);
   const quickHits = digest.quickHits ?? [];
   const screenCount = items.length + (quickHits.length ? 1 : 0);
+  const slug = digest.slug;
 
   const scrollerRef = useRef(null);
   const confettiRef = useRef(null);
   const rafRef = useRef(null);
   const endFiredRef = useRef(false);
 
-  const [likes, setLikes] = useState({});
-  const [comments, setComments] = useState({});
+  const [user, setUser] = useState(null);
+  const [likes, setLikes] = useState({});        // { itemId: { count, mine } }
+  const [comments, setComments] = useState({});  // { itemId: [ {id,name,photo,text,when} ] }
   const [openPanel, setOpenPanel] = useState(null);
+  const [openDetail, setOpenDetail] = useState(null);
+  const [playing, setPlaying] = useState(null);
   const [commentText, setCommentText] = useState('');
   const [pageUrl, setPageUrl] = useState('');
 
-  const LIKES_KEY = `radar-likes-${digest.slug}`;
-  const COMMENTS_KEY = `radar-comments-${digest.slug}`;
+  const LIKES_KEY = `radar-likes-${slug}`;
+  const COMMENTS_KEY = `radar-comments-${slug}`;
 
+  /* --- מצב מקומי (בלי Firebase) --- */
   useEffect(() => {
     setPageUrl(window.location.href.split('#')[0]);
+    if (firebaseEnabled) return;
     try {
-      setLikes(JSON.parse(localStorage.getItem(LIKES_KEY) || '{}'));
-      setComments(JSON.parse(localStorage.getItem(COMMENTS_KEY) || '{}'));
+      const l = JSON.parse(localStorage.getItem(LIKES_KEY) || '{}');
+      setLikes(Object.fromEntries(Object.entries(l).map(([k, v]) => [k, { count: v ? 1 : 0, mine: !!v }])));
+      const c = JSON.parse(localStorage.getItem(COMMENTS_KEY) || '{}');
+      setComments(c);
     } catch { /* איחסון חסום — ממשיכים בלי */ }
   }, [LIKES_KEY, COMMENTS_KEY]);
+
+  /* --- מצב ענן (Firebase): משתמש, תגובות ולייקים בזמן אמת --- */
+  useEffect(() => {
+    if (!firebaseEnabled) return undefined;
+    const fb = getFirebase();
+    if (!fb) return undefined;
+    const stopUser = watchUser(setUser);
+
+    const stopComments = onSnapshot(
+      query(collection(fb.db, 'comments'), where('slug', '==', slug)),
+      (snap) => {
+        const grouped = {};
+        snap.docs
+          .map((d) => ({ id: d.id, ...d.data() }))
+          .sort((a, b) => (a.createdAt?.toMillis?.() ?? Date.now()) - (b.createdAt?.toMillis?.() ?? Date.now()))
+          .forEach((c) => {
+            (grouped[c.itemId] ||= []).push({
+              id: c.id, name: c.name, photo: c.photo, text: c.text,
+              when: timeAgo(c.createdAt?.toDate?.() ?? null),
+            });
+          });
+        setComments(grouped);
+      },
+    );
+
+    return () => { stopUser(); stopComments(); };
+  }, [slug]);
+
+  useEffect(() => {
+    if (!firebaseEnabled) return undefined;
+    const fb = getFirebase();
+    if (!fb) return undefined;
+    const stopLikes = onSnapshot(
+      query(collection(fb.db, 'likes'), where('slug', '==', slug)),
+      (snap) => {
+        const agg = {};
+        snap.docs.forEach((d) => {
+          const l = d.data();
+          const cur = (agg[l.itemId] ||= { count: 0, mine: false });
+          cur.count += 1;
+          if (user && l.uid === user.uid) cur.mine = true;
+        });
+        setLikes(agg);
+      },
+    );
+    return () => stopLikes();
+  }, [slug, user]);
 
   const persist = (key, val) => {
     try { localStorage.setItem(key, JSON.stringify(val)); } catch { /* noop */ }
   };
 
-  const toggleLike = (id) => {
-    const next = { ...likes, [id]: !likes[id] };
-    setLikes(next);
-    persist(LIKES_KEY, next);
+  const signIn = async () => {
+    try { await signInWithGoogle(); } catch (e) { console.warn('התחברות נכשלה', e); }
   };
 
-  const sendComment = (id) => {
+  const toggleLike = async (id) => {
+    if (!firebaseEnabled) {
+      const mine = !likes[id]?.mine;
+      const next = { ...likes, [id]: { count: mine ? 1 : 0, mine } };
+      setLikes(next);
+      persist(LIKES_KEY, Object.fromEntries(Object.entries(next).map(([k, v]) => [k, v.mine])));
+      return;
+    }
+    if (!user) return signIn();
+    const fb = getFirebase();
+    const ref = doc(fb.db, 'likes', `${slug}_${id}_${user.uid}`);
+    if (likes[id]?.mine) await deleteDoc(ref);
+    else await setDoc(ref, { slug, itemId: id, uid: user.uid, createdAt: serverTimestamp() });
+  };
+
+  const sendComment = async (id) => {
     const text = commentText.trim();
     if (!text) return;
-    const next = {
-      ...comments,
-      [id]: [...(comments[id] || []), { name: 'אני', when: 'עכשיו', text }],
-    };
-    setComments(next);
+    if (!firebaseEnabled) {
+      const next = { ...comments, [id]: [...(comments[id] || []), { name: 'אני', when: 'עכשיו', text }] };
+      setComments(next);
+      setCommentText('');
+      persist(COMMENTS_KEY, next);
+      return;
+    }
+    if (!user) return signIn();
+    const fb = getFirebase();
     setCommentText('');
-    persist(COMMENTS_KEY, next);
+    await addDoc(collection(fb.db, 'comments'), {
+      slug, itemId: id, uid: user.uid, name: user.name, photo: user.photo, text,
+      createdAt: serverTimestamp(),
+    });
   };
 
   const fireConfetti = () => {
@@ -214,6 +427,20 @@ export default function Feed({ digest, dateRange }) {
 
   useEffect(() => () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); }, []);
 
+  /* ניווט במקלדת בדסקטופ: חצים / j / k */
+  useEffect(() => {
+    const onKey = (e) => {
+      if (openPanel || openDetail) { if (e.key === 'Escape') { setOpenPanel(null); setOpenDetail(null); } return; }
+      if (e.target.tagName === 'INPUT') return;
+      const el = scrollerRef.current;
+      if (!el) return;
+      if (e.key === 'ArrowDown' || e.key === 'j') { e.preventDefault(); el.scrollBy({ top: el.clientHeight, behavior: 'smooth' }); }
+      if (e.key === 'ArrowUp' || e.key === 'k') { e.preventDefault(); el.scrollBy({ top: -el.clientHeight, behavior: 'smooth' }); }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [openPanel, openDetail]);
+
   const onScroll = (e) => {
     const el = e.currentTarget;
     if (!endFiredRef.current && el.scrollTop + el.clientHeight >= el.scrollHeight - 40) {
@@ -223,9 +450,12 @@ export default function Feed({ digest, dateRange }) {
   };
 
   const backToTop = () => scrollerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+  const openComments = (id) => { setOpenDetail(null); setOpenPanel(openPanel === id ? null : id); setCommentText(''); };
 
   const coverWa = waShare(`רדאר AI · גיליון ${digest.issue} — ${digest.title}`, pageUrl);
   const readMinutes = Math.max(2, Math.round((screenCount * 22) / 60));
+
+  const openItem = openDetail !== null ? items[Number(openDetail.replace('it', ''))] : null;
 
   return (
     <div className="feed-viewport">
@@ -233,7 +463,7 @@ export default function Feed({ digest, dateRange }) {
         <div className="feed-scroller" ref={scrollerRef} onScroll={onScroll}>
 
           {/* ---- פתיח ---- */}
-          <section className="screen cover">
+          <section className="screen cover" id="top">
             <div className="grid-overlay" />
             <div className="cover-blob-a" />
             <div className="cover-blob-b" />
@@ -241,7 +471,17 @@ export default function Feed({ digest, dateRange }) {
               <div className="cover-topline">
                 <span className="issue-badge">גיליון {digest.issue}</span>
                 <span>{dateRange}</span>
-                <a href="/archive/" style={{ marginInlineStart: 'auto', fontSize: 12 }}>ארכיון ←</a>
+                <span style={{ marginInlineStart: 'auto', display: 'flex', gap: 10, alignItems: 'center' }}>
+                  {firebaseEnabled && (user ? (
+                    <button className="user-chip" onClick={signOutUser} title="התנתקות">
+                      <Avatar name={user.name} photo={user.photo} />
+                      <span>{user.name.split(' ')[0]}</span>
+                    </button>
+                  ) : (
+                    <button className="user-chip" onClick={signIn}><GoogleIcon /> התחברות</button>
+                  ))}
+                  <a href="/archive/" style={{ fontSize: 12 }}>ארכיון ←</a>
+                </span>
               </div>
               <h1>רדאר AI</h1>
               <div className="cover-tagline">{digest.title}</div>
@@ -265,25 +505,18 @@ export default function Feed({ digest, dateRange }) {
           {/* ---- אייטמים ---- */}
           {items.map((item, i) => {
             const id = `it${i}`;
-            const liked = !!likes[id];
+            const like = likes[id] || { count: 0, mine: false };
             const cms = comments[id] || [];
             return (
-              <section className={'screen item-screen' + (item.image ? ' has-photo' : '')} key={id}>
-                <div
-                  className="item-bg"
-                  style={{
-                    background: `radial-gradient(circle at 80% 15%, oklch(0.5 0.19 ${item.hue} / 0.55), transparent 55%), radial-gradient(circle at 15% 75%, oklch(0.45 0.2 ${(item.hue + 120) % 360} / 0.4), transparent 55%), linear-gradient(160deg, #0a0d20, #05060e)`,
-                  }}
-                />
+              <section className={'screen item-screen' + (item.image ? ' has-photo' : '')} key={id} id={id}>
+                <div className="item-bg" style={{ background: hueBg(item.hue) }} />
                 {item.image && (
                   <div className="item-photo-band">
                     {/* בלי lazy: בגלילת snap מהירה תמונה עצלה לא מספיקה להיצבע והמסך נראה ריק */}
                     <img src={item.image} alt="" decoding="async" />
                     <div
                       className="item-photo-tint"
-                      style={{
-                        background: `linear-gradient(180deg, oklch(0.5 0.19 ${item.hue} / 0.3), oklch(0.45 0.2 ${(item.hue + 120) % 360} / 0.22))`,
-                      }}
+                      style={{ background: `linear-gradient(180deg, oklch(0.5 0.19 ${item.hue} / 0.3), oklch(0.45 0.2 ${(item.hue + 120) % 360} / 0.22))` }}
                     />
                   </div>
                 )}
@@ -295,47 +528,50 @@ export default function Feed({ digest, dateRange }) {
                 <div className="item-topline" style={{ background: `linear-gradient(90deg, oklch(0.75 0.16 ${item.hue}), transparent)` }} />
 
                 <ActionRail
-                  id={id}
-                  liked={liked}
-                  likeCount={liked ? 1 : 0}
+                  liked={like.mine}
+                  likeCount={like.count}
                   commentCount={cms.length}
                   onLike={() => toggleLike(id)}
-                  onPanel={() => { setOpenPanel(openPanel === id ? null : id); setCommentText(''); }}
+                  onPanel={() => openComments(id)}
                   wa={waShare(item.title, item.url || pageUrl)}
+                  podcast={item.podcast}
+                  playing={playing === id}
+                  onPodcast={() => setPlaying(playing === id ? null : id)}
                 />
 
                 <div className="item-content">
                   <div className="item-tags">
-                    <span
-                      className="tag-pill"
-                      style={{ border: `1px solid oklch(0.75 0.16 ${item.hue})`, color: `oklch(0.87 0.12 ${item.hue})` }}
-                    >
+                    <span className="tag-pill" style={{ border: `1px solid oklch(0.75 0.16 ${item.hue})`, color: `oklch(0.87 0.12 ${item.hue})` }}>
                       {item.tag}
                     </span>
                     <span className="item-source">{item.source}</span>
                   </div>
                   <h2>{item.title}</h2>
                   <p>{item.body}</p>
-                  {item.why && (
-                    <div className="why-box" style={{ borderInlineStart: `3px solid oklch(0.75 0.16 ${item.hue})` }}>
-                      <div className="why-box-inner"><b>למה זה חשוב · </b>{item.why}</div>
-                    </div>
-                  )}
-                  {(item.url || item.links?.length > 0) && (
-                    <div className="item-links">
-                      {item.url && (
-                        <a className="link-pill" href={item.url} target="_blank" rel="noreferrer">
-                          למקור ↗
-                        </a>
-                      )}
-                      {(item.links ?? []).map((lnk, li) => (
-                        <a className="link-pill" href={lnk.url} target="_blank" rel="noreferrer" key={li}>
-                          {lnk.label} ↗
-                        </a>
-                      ))}
-                    </div>
-                  )}
+                  <WhyBox item={item} clamp />
+                  <div className="item-links">
+                    <button className="link-pill detail-btn" onClick={() => { setOpenPanel(null); setOpenDetail(id); }}>
+                      פירוט ↓
+                    </button>
+                    {item.url && (
+                      <a className="link-pill" href={item.url} target="_blank" rel="noreferrer">למקור ↗</a>
+                    )}
+                    {(item.links ?? []).slice(0, 1).map((lnk, li) => (
+                      <a className="link-pill" href={lnk.url} target="_blank" rel="noreferrer" key={li}>{lnk.label} ↗</a>
+                    ))}
+                    {item.notebook && (
+                      <a className="link-pill notebook" href={item.notebook} target="_blank" rel="noreferrer">NotebookLM ↗</a>
+                    )}
+                  </div>
                 </div>
+
+                {playing === id && item.podcast && (
+                  <div className="mini-player">
+                    <span>🎧 פודקאסט על האייטם</span>
+                    <audio controls autoPlay src={item.podcast} onEnded={() => setPlaying(null)} />
+                    <button className="panel-close" onClick={() => setPlaying(null)} aria-label="סגירה">✕</button>
+                  </div>
+                )}
 
                 {openPanel === id && (
                   <CommentsPanel
@@ -344,7 +580,13 @@ export default function Feed({ digest, dateRange }) {
                     onText={setCommentText}
                     onSend={() => sendComment(id)}
                     onClose={() => setOpenPanel(null)}
+                    user={user}
+                    onSignIn={signIn}
+                    cloud={firebaseEnabled}
                   />
+                )}
+                {openDetail === id && openItem && (
+                  <DetailPanel item={openItem} index={i} onClose={() => setOpenDetail(null)} />
                 )}
               </section>
             );
@@ -355,38 +597,27 @@ export default function Feed({ digest, dateRange }) {
             const id = 'quick';
             const hue = HUES[items.length % HUES.length];
             const cms = comments[id] || [];
-            const liked = !!likes[id];
+            const like = likes[id] || { count: 0, mine: false };
             return (
-              <section className="screen" key={id}>
-                <div
-                  className="item-bg"
-                  style={{
-                    background: `radial-gradient(circle at 80% 15%, oklch(0.5 0.19 ${hue} / 0.55), transparent 55%), radial-gradient(circle at 15% 75%, oklch(0.45 0.2 ${(hue + 120) % 360} / 0.4), transparent 55%), linear-gradient(160deg, #0a0d20, #05060e)`,
-                  }}
-                />
+              <section className="screen" key={id} id={id}>
+                <div className="item-bg" style={{ background: hueBg(hue) }} />
                 <div className="grid-overlay" />
                 <div className="item-num" style={{ WebkitTextStroke: `1.5px oklch(0.75 0.16 ${hue} / 0.55)` }}>⚡</div>
                 <div className="item-fade" />
                 <div className="item-topline" style={{ background: `linear-gradient(90deg, oklch(0.75 0.16 ${hue}), transparent)` }} />
 
                 <ActionRail
-                  id={id}
-                  liked={liked}
-                  likeCount={liked ? 1 : 0}
+                  liked={like.mine}
+                  likeCount={like.count}
                   commentCount={cms.length}
                   onLike={() => toggleLike(id)}
-                  onPanel={() => { setOpenPanel(openPanel === id ? null : id); setCommentText(''); }}
+                  onPanel={() => openComments(id)}
                   wa={waShare(`רדאר AI · גיליון ${digest.issue} — בזקים`, pageUrl)}
                 />
 
                 <div className="quick-list">
                   <div className="item-tags">
-                    <span
-                      className="tag-pill"
-                      style={{ border: `1px solid oklch(0.75 0.16 ${hue})`, color: `oklch(0.87 0.12 ${hue})` }}
-                    >
-                      בזקים
-                    </span>
+                    <span className="tag-pill" style={{ border: `1px solid oklch(0.75 0.16 ${hue})`, color: `oklch(0.87 0.12 ${hue})` }}>בזקים</span>
                     <span className="item-source">בשורה אחת</span>
                   </div>
                   {quickHits.map((q, i) => (
@@ -404,6 +635,9 @@ export default function Feed({ digest, dateRange }) {
                     onText={setCommentText}
                     onSend={() => sendComment(id)}
                     onClose={() => setOpenPanel(null)}
+                    user={user}
+                    onSignIn={signIn}
+                    cloud={firebaseEnabled}
                   />
                 )}
               </section>
@@ -411,7 +645,7 @@ export default function Feed({ digest, dateRange }) {
           })()}
 
           {/* ---- סיום ---- */}
-          <section className="screen finale">
+          <section className="screen finale" id="end">
             <canvas className="finale-canvas" ref={confettiRef} />
             <div className="finale-orbit"><div className="finale-emoji">🛰️</div></div>
             <h2>זהו, הגעתם לסוף!</h2>
@@ -425,6 +659,7 @@ export default function Feed({ digest, dateRange }) {
             </div>
             <div className="finale-links">
               <a href="/archive/">לגיליונות קודמים</a>
+              {digest.notebook && <a href={digest.notebook} target="_blank" rel="noreferrer">שאלו את NotebookLM על הגיליון ↗</a>}
               <a href={coverWa} target="_blank" rel="noreferrer">שיתוף בוואטסאפ ↗</a>
             </div>
           </section>

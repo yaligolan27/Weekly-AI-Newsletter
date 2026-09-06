@@ -1,0 +1,44 @@
+[
+  {
+    "id": "hardfork",
+    "name": "Hard Fork",
+    "hosts": ["Kevin Roose", "Casey Newton"],
+    "channelId": "UCqnbDFdCpuN8CMEg0VuEBqA",
+    "angle": "עיתונאי טכנולוגיה של ה-NYT. פרשנות תרבותית וחברתית, סקפטיים כלפי הייפ."
+  },
+  {
+    "id": "aidailybrief",
+    "name": "The AI Daily Brief",
+    "hosts": ["Nathaniel Whittemore"],
+    "channelId": "UCKelCK4ZaO6HeEI1KQjqzWA",
+    "angle": "סיכום יומי ממוקד עסקים ואימוץ ארגוני. הכי מהיר לתגובה על חדשות."
+  },
+  {
+    "id": "latentspace",
+    "name": "Latent Space",
+    "hosts": ["swyx (Shawn Wang)", "Alessio Fanelli"],
+    "channelId": "UCxBcwypKK-W3GHd_RZ9FZrQ",
+    "angle": "מהנדסי AI. עומק טכני על מודלים, סוכנים ותשתית, עם אורחים מהמעבדות."
+  },
+  {
+    "id": "nopriors",
+    "name": "No Priors",
+    "hosts": ["Sarah Guo", "Elad Gil"],
+    "channelId": "UCSI7h9hydQ40K5MJHnCrQvw",
+    "angle": "משקיעים. פרספקטיבה של שוק, אסטרטגיה ומה זה אומר לחברות."
+  },
+  {
+    "id": "lastweekinai",
+    "name": "Last Week in AI",
+    "hosts": ["Andrey Kurenkov", "Jeremie Harris"],
+    "channelId": "UCKARTq-t5SPMzwtft8FWwnA",
+    "angle": "סקירה שבועית רחבה של מחקר, מוצרים ומדיניות. מכסים כמעט הכל."
+  },
+  {
+    "id": "bigtech",
+    "name": "Big Technology",
+    "hosts": ["Alex Kantrowitz"],
+    "channelId": "UCaKiCexVhZ459j9sZ2e7XdQ",
+    "angle": "ראיונות עם בכירים בתעשייה. הזווית של מי שמקבל את ההחלטות."
+  }
+]

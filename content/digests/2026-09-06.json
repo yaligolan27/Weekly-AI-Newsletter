@@ -21,7 +21,13 @@
           "url": "https://arcprize.org/blog/astra"
         }
       ],
-      "image": "/img/2026-09-06/sp0.jpg"
+      "image": "/img/2026-09-06/sp0.jpg",
+      "expertTake": {
+        "name": "Nathaniel Whittemore",
+        "show": "The AI Daily Brief",
+        "episodeUrl": "https://www.youtube.com/watch?v=CDUclXojmDg",
+        "take": "הסיפור האמיתי הוא יעילות: Astra הגיע ל-30% במבחן הניצול הפנימי עם 40 אלף טוקנים, בעוד GPT-5.6 Sol לא רשם תוצאה משמעותית לפני 110 אלף. אם מקרינים מזה לשאר היכולות — זה מודל חסכוני בהרבה להרצת סוכנים בכלל. והפוסט של אלטמן, \"רציני בצורה חריגה, אפילו עם דקדוק ופיסוק נכונים\", מרמז על מצב הרוח בפנים: OpenAI מאטה בכוונה את המודלים שאחרי Astra."
+      }
     },
     {
       "title": "ארבעה מודלי חזית בארבעה ימים, והפער ביניהם מצטמצם לשבע נקודות",
@@ -122,7 +128,13 @@
               "url": "https://www.cnbc.com/2026/09/01/anthropic-data-retention.html"
             }
           ],
-          "image": "/img/2026-09-06/s2i0.jpg"
+          "image": "/img/2026-09-06/s2i0.jpg",
+          "expertTake": {
+            "name": "Nathaniel Whittemore",
+            "show": "The AI Daily Brief",
+            "episodeUrl": "https://www.youtube.com/watch?v=5MMFeibSkqc",
+            "take": "מדיניות שמירה של 30 יום על נתוני ארגונים, כמו זו שהגיעה עם Fable 5, \"הפכה אותו ללא-רלוונטי לחלוטין לקבוצה גדולה של לקוחות ארגוניים\" — לדבריו. ארגונים מתחילים להעדיף מודלים פתוחים, גם סיניים, כי פרופיל הריבונות על הנתונים עדיף על הבטחה של ספק שלא יאמן עליהם. השאלה ל-3–6 החודשים הבאים: כמה רחוק המגמה הזו תלך."
+          }
         },
         {
           "title": "חמש העיניים מציבות לראשונה גישה למודלי חזית כיעד מדיניות",
@@ -196,7 +208,13 @@
           "source": "OpenAI",
           "url": "https://openai.com/index/our-decision-on-cursor-following-its-acquisition-by-spacex/",
           "imageFrom": "https://www.cnbc.com/2026/08/29/openai-cursor-spacex-model-access.html",
-          "image": "/img/2026-09-06/s4i1.jpg"
+          "image": "/img/2026-09-06/s4i1.jpg",
+          "expertTake": {
+            "name": "Nathaniel Whittemore",
+            "show": "The AI Daily Brief",
+            "episodeUrl": "https://www.youtube.com/watch?v=5MMFeibSkqc",
+            "take": "הרכישה של Cursor ב-60 מיליארד תמחרה כמה שווה ה\"רתמה\" (harness) שסביב המודל — ולו רק בגלל הנתונים שהיא אוספת על איך אנשים באמת עובדים עם מודלים. הניתוק של OpenAI מראה שבחירת רתמה כבר קובעת לאילו מודלים תהיה לך גישה בכלל. הרתמה הפכה לשאלה של ריבונות, לא רק של נוחות."
+          }
         }
       ]
     }
