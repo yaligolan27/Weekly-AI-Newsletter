@@ -1034,6 +1034,111 @@ img.comment-avatar { object-fit: cover; }
   }
 }
 
+/* ---------- שער כניסה ---------- */
+
+.gate {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: var(--panel);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px;
+  overflow: hidden;
+}
+
+html[data-gate="done"] .gate { display: none; }
+
+.gate .grid-overlay {
+  background-image:
+    linear-gradient(rgba(120, 220, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(120, 220, 255, 0.05) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+.gate-card {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
+}
+
+.gate h1 {
+  font-family: 'Secular One', Rubik, sans-serif;
+  font-size: 64px;
+  line-height: 1.05;
+  background: linear-gradient(120deg, #f2f4ff, oklch(0.85 0.15 195), oklch(0.8 0.18 320), #f2f4ff);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 6s linear infinite;
+}
+
+.gate-tagline {
+  font-size: 17px;
+  font-weight: 500;
+  color: oklch(0.85 0.13 195);
+  text-wrap: pretty;
+}
+
+.gate-text {
+  font-size: 14.5px;
+  line-height: 1.7;
+  color: var(--ink-dim);
+  max-width: 36ch;
+  text-wrap: pretty;
+}
+
+.gate-actions {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.gate-google {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: 14px;
+  border: none;
+  background: #fff;
+  color: #1f1f1f;
+  font: 700 15px Rubik, sans-serif;
+  cursor: pointer;
+  box-shadow: 0 6px 28px rgba(255, 255, 255, 0.12);
+  transition: transform 0.15s, filter 0.15s;
+}
+.gate-google:hover { transform: translateY(-1px); filter: brightness(0.97); }
+.gate-google:disabled { opacity: 0.7; cursor: default; }
+
+.gate-guest {
+  width: 100%;
+  padding: 13px 18px;
+  border-radius: 14px;
+  border: 1px solid rgba(235, 240, 255, 0.22);
+  background: rgba(10, 12, 28, 0.5);
+  color: var(--ink);
+  font: 700 14.5px Rubik, sans-serif;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.gate-guest:hover { border-color: oklch(0.82 0.15 195 / 0.6); background: oklch(0.82 0.15 195 / 0.1); }
+
+.gate-error { font-size: 13px; color: oklch(0.8 0.15 25); }
+.gate-foot { font-size: 12px; color: var(--ink-faint); }
+
+@media (prefers-reduced-motion: reduce) { .gate h1 { animation: none; } }
+
 /* ---------- נגישות: בלי אנימציות למי שביקש ---------- */
 
 @media (prefers-reduced-motion: reduce) {
