@@ -362,7 +362,6 @@ input::placeholder { color: rgba(235, 240, 255, 0.4); }
   display: flex;
   flex-direction: column;
   gap: 12px;
-  pointer-events: none;
 }
 
 /* עם תמונה יש פחות מקום לטקסט — מקצרים בהתאם */
@@ -759,73 +758,69 @@ input::placeholder { color: rgba(235, 240, 255, 0.4); }
   overflow: hidden;
 }
 
-/* ---------- פירוט (הרחבת אייטם) ---------- */
+/* ---------- קריאה מלאה בלחיצה על הטקסט ---------- */
 
-.link-pill.detail-btn {
-  border: none;
-  background: linear-gradient(120deg, oklch(0.7 0.16 195 / 0.9), oklch(0.65 0.18 320 / 0.9));
-  color: #04060f;
-  font-weight: 700;
+.item-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
   cursor: pointer;
-  font-family: Rubik, sans-serif;
+  -webkit-tap-highlight-color: transparent;
 }
-.link-pill.detail-btn:hover { filter: brightness(1.12); color: #04060f; }
+.item-body:focus-visible { outline: 2px solid oklch(0.82 0.15 195 / 0.6); outline-offset: 6px; border-radius: 8px; }
+
+.read-more {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--cyan);
+  margin-top: -4px;
+}
+
+/* אייטם פתוח: התמונה והמספר נסוגים, הטקסט המלא נגלל בתוך המסך */
+.item-screen.expanded .item-photo-band { opacity: 0.22; }
+.item-screen.expanded .item-num { opacity: 0.12; }
+.item-screen.expanded .item-fade {
+  background: linear-gradient(to top, #05060e 55%, rgba(5, 6, 14, 0.9) 75%, rgba(5, 6, 14, 0.5) 100%);
+}
+.item-screen.expanded .item-content {
+  max-height: calc(100% - 44px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-top: 12px;
+}
+.item-screen.expanded .item-content p,
+.item-screen.expanded .why-box-inner {
+  display: block;
+  -webkit-line-clamp: unset;
+  overflow: visible;
+}
+.item-screen.expanded .item-content p { font-size: 15px; line-height: 1.75; }
+
+/* ---------- דאבל-טאפ: לב גדול בנקודת הנגיעה ---------- */
+
+@keyframes tapheart {
+  0% { transform: translate(-50%, -50%) scale(0.4); opacity: 0; }
+  20% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
+  60% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  100% { transform: translate(-50%, -75%) scale(1.2); opacity: 0; }
+}
+.tap-heart {
+  position: absolute;
+  z-index: 30;
+  color: oklch(0.72 0.21 15);
+  pointer-events: none;
+  filter: drop-shadow(0 6px 20px rgba(0, 0, 0, 0.55));
+  animation: tapheart 0.8s ease-out forwards;
+}
+.tap-heart svg { width: 96px; height: 96px; }
+
+.item-source .via { color: var(--ink-faint); }
 
 .link-pill.notebook {
   border-color: oklch(0.8 0.15 80 / 0.6);
   color: oklch(0.9 0.12 80);
 }
 .link-pill.notebook:hover { background: oklch(0.8 0.15 80 / 0.14); }
-
-.panel.detail { max-height: 88%; }
-
-.detail-body {
-  gap: 14px;
-  padding-bottom: 24px;
-}
-
-.detail-body h2 {
-  font-family: 'Secular One', Rubik, sans-serif;
-  font-size: 24px;
-  line-height: 1.25;
-  text-wrap: pretty;
-}
-
-.detail-source { font-size: 12.5px; color: var(--ink-faint); margin-top: -8px; }
-
-.detail-body p {
-  font-size: 15px;
-  line-height: 1.75;
-  color: rgba(235, 240, 255, 0.88);
-  text-wrap: pretty;
-}
-
-.detail-body .why-box { font-size: 14px; line-height: 1.7; }
-
-.detail-label { font-size: 12.5px; font-weight: 700; color: var(--ink-faint); margin-bottom: 6px; }
-
-.detail-podcast audio { width: 100%; height: 40px; }
-
-/* ---------- דעת מומחה ---------- */
-
-.why-box.expert {
-  background: linear-gradient(135deg, rgba(20, 16, 40, 0.75), rgba(10, 12, 28, 0.6));
-}
-
-.why-box.expert b {
-  display: block;
-  margin-bottom: 3px;
-  color: oklch(0.88 0.1 80);
-  font-size: 12.5px;
-  letter-spacing: 0.2px;
-}
-
-.expert-link {
-  display: inline-block;
-  margin-inline-start: 8px;
-  font-size: 12.5px;
-  white-space: nowrap;
-}
 
 /* ---------- נגן פודקאסט ---------- */
 

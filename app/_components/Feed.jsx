@@ -9,6 +9,9 @@ import { firebaseEnabled, getFirebase, signInWithGoogle, signOutUser, watchUser 
 /* גווני oklch לסבב בין האייטמים — כל מסך מקבל צבע משלו */
 const HUES = [195, 320, 45, 260, 150, 15, 100, 225, 300, 70, 180, 340];
 
+/* דאבל-טאפ: שתי נגיעות בתוך החלון הזה = לייק */
+const DOUBLE_TAP_MS = 300;
+
 /** משטח את מבנה הגיליון לרשימת מסכים: ספוטלייטים ואז אייטמי המדורים */
 function flatten(digest) {
   const items = [];
@@ -17,13 +20,14 @@ function flatten(digest) {
     title: it.title,
     body: it.summary,
     why: it.whyItMatters,
-    expert: it.expertTake,
     source: it.source,
     url: it.url,
     image: it.image,
     links: it.links,
     podcast: it.podcast,
     notebook: it.notebook ?? digest.notebook,
+    /* "newsletter:TLDR AI" → דרך איזה ניוזלטר הסיפור התגלה; "web" → מהרשת */
+    via: typeof it.origin === 'string' && it.origin.startsWith('newsletter:') ? it.origin.slice(11) : null,
   });
   for (const s of digest.spotlight ?? []) items.push(pick(s, s.tag));
   for (const section of digest.sections ?? []) {
@@ -191,86 +195,6 @@ function CommentsPanel({ comments, text, onText, onSend, onClose, user, onSignIn
   );
 }
 
-/** קופסת המשמעויות — דעת מומחה מפודקאסט אם יש, אחרת הניתוח שלנו */
-function WhyBox({ item, clamp }) {
-  const hue = item.hue;
-  if (item.expert) {
-    return (
-      <div className="why-box expert" style={{ borderInlineStart: `3px solid oklch(0.75 0.16 ${hue})` }}>
-        <div className={clamp ? 'why-box-inner' : ''}>
-          <b>🎙️ {item.expert.name} · {item.expert.show}</b>{' '}
-          {item.expert.take}
-        </div>
-      </div>
-    );
-  }
-  if (item.why) {
-    return (
-      <div className="why-box" style={{ borderInlineStart: `3px solid oklch(0.75 0.16 ${hue})` }}>
-        <div className={clamp ? 'why-box-inner' : ''}><b>למה זה חשוב · </b>{item.why}</div>
-      </div>
-    );
-  }
-  return null;
-}
-
-/** פאנל הפירוט — הטקסט המלא, כל הקישורים, פודקאסט ו-NotebookLM */
-function DetailPanel({ item, index, onClose }) {
-  const hue = item.hue;
-  return (
-    <>
-      <div className="panel-scrim" onClick={onClose} />
-      <div className="panel detail">
-        <div className="panel-head">
-          <span className="tag-pill" style={{ border: `1px solid oklch(0.75 0.16 ${hue})`, color: `oklch(0.87 0.12 ${hue})` }}>
-            {String(index + 1).padStart(2, '0')} · {item.tag}
-          </span>
-          <button className="panel-close" onClick={onClose} aria-label="סגירה">✕</button>
-        </div>
-        <div className="panel-body detail-body">
-          <h2>{item.title}</h2>
-          <div className="detail-source">{item.source}</div>
-          <p>{item.body}</p>
-
-          {item.expert && (
-            <div className="why-box expert" style={{ borderInlineStart: `3px solid oklch(0.75 0.16 ${hue})` }}>
-              <b>🎙️ {item.expert.name} · {item.expert.show}</b>{' '}
-              {item.expert.take}
-              {item.expert.episodeUrl && (
-                <a className="expert-link" href={item.expert.episodeUrl} target="_blank" rel="noreferrer">לפרק המלא ↗</a>
-              )}
-            </div>
-          )}
-          {item.why && (
-            <div className="why-box" style={{ borderInlineStart: `3px solid oklch(0.75 0.16 ${hue})` }}>
-              <b>למה זה חשוב · </b>{item.why}
-            </div>
-          )}
-
-          {item.podcast && (
-            <div className="detail-podcast">
-              <div className="detail-label">🎧 פודקאסט על האייטם</div>
-              <audio controls preload="none" src={item.podcast} />
-            </div>
-          )}
-
-          <div className="item-links">
-            {item.url && <a className="link-pill" href={item.url} target="_blank" rel="noreferrer">למקור ↗</a>}
-            {(item.links ?? []).map((lnk, li) => (
-              <a className="link-pill" href={lnk.url} target="_blank" rel="noreferrer" key={li}>{lnk.label} ↗</a>
-            ))}
-            {item.notebook && (
-              <a className="link-pill notebook" href={item.notebook} target="_blank" rel="noreferrer">
-                שאלו את NotebookLM ↗
-              </a>
-            )}
-          </div>
-        </div>
-      </div>
-    </>
-  );
-}
-
 /* ---------- הפיד ---------- */
 
 export default function Feed({ digest, dateRange }) {
@@ -283,16 +207,18 @@ export default function Feed({ digest, dateRange }) {
   const confettiRef = useRef(null);
   const rafRef = useRef(null);
   const endFiredRef = useRef(false);
+  const scrollRaf = useRef(null);
+  const tapRef = useRef({ id: null, t: 0, timer: null });
 
   const [user, setUser] = useState(null);
   const [currentIdx, setCurrentIdx] = useState(0);  // איזה מסך על המסך — לתוכן העניינים ולהילה
-  const [justLiked, setJustLiked] = useState(null); // אנימציית הלב
+  const [justLiked, setJustLiked] = useState(null); // אנימציית הלב בפס
+  const [burst, setBurst] = useState(null);         // לב גדול בנקודת הדאבל-טאפ
+  const [expanded, setExpanded] = useState(null);   // אייטם פתוח לקריאה מלאה
   const [origin, setOrigin] = useState('');
-  const scrollRaf = useRef(null);
   const [likes, setLikes] = useState({});        // { itemId: { count, mine } }
   const [comments, setComments] = useState({});  // { itemId: [ {id,name,photo,text,when} ] }
   const [openPanel, setOpenPanel] = useState(null);
-  const [openDetail, setOpenDetail] = useState(null);
   const [playing, setPlaying] = useState(null);
   const [commentText, setCommentText] = useState('');
   const [pageUrl, setPageUrl] = useState('');
@@ -300,13 +226,13 @@ export default function Feed({ digest, dateRange }) {
   const LIKES_KEY = `radar-likes-${slug}`;
   const COMMENTS_KEY = `radar-comments-${slug}`;
 
-  /* --- מצב מקומי (בלי Firebase) --- */
   /* קישור עמוק לאייטם: /digest/<slug>/#it3 */
   useEffect(() => {
     const m = window.location.hash.match(/^#(it\d+|quick|end)$/);
     if (m) document.getElementById(m[1])?.scrollIntoView({ block: 'start' });
   }, []);
 
+  /* --- מצב מקומי (בלי Firebase) --- */
   useEffect(() => {
     setPageUrl(window.location.href.split('#')[0]);
     setOrigin(window.location.origin);
@@ -374,15 +300,16 @@ export default function Feed({ digest, dateRange }) {
     try { await signInWithGoogle(); } catch (e) { console.warn('התחברות נכשלה', e); }
   };
 
-  /* התפרצות הלב + רטט קצר בנייד */
+  /* התפרצות הלב בפס + רטט קצר בנייד */
   const celebrateLike = (id) => {
     setJustLiked(id);
     setTimeout(() => setJustLiked((cur) => (cur === id ? null : cur)), 650);
     try { navigator.vibrate?.(12); } catch { /* לא נתמך */ }
   };
 
-  const toggleLike = async (id) => {
+  const toggleLike = async (id, { onlyLike = false } = {}) => {
     const willLike = !likes[id]?.mine;
+    if (!willLike && onlyLike) return; // דאבל-טאפ לא מבטל לייק
     if (!firebaseEnabled) {
       const next = { ...likes, [id]: { count: willLike ? 1 : 0, mine: willLike } };
       setLikes(next);
@@ -400,15 +327,36 @@ export default function Feed({ digest, dateRange }) {
     }
   };
 
-  /** קישור קבוע לאייטם באתר — לשיתוף */
-  const itemLink = (i) => `${origin}/digest/${slug}/#it${i}`;
+  /**
+   * נגיעות במסך אייטם:
+   *  - דאבל-טאפ בכל מקום → לייק + לב גדול בנקודת הנגיעה
+   *  - טאפ בודד על הטקסט → פתיחה/סגירה של הקריאה המלאה (אחרי השהיה קצרה,
+   *    כדי לא לפתוח בטעות כשמתכוונים לדאבל-טאפ)
+   *  - טאפ בודד מחוץ לטקסט על אייטם פתוח → סגירה
+   */
+  const onScreenTap = (id, e) => {
+    if (e.target.closest('a, button, input, .panel, .panel-scrim, .mini-player, .action-rail')) return;
+    const now = Date.now();
+    const rect = e.currentTarget.getBoundingClientRect();
+    const inText = !!e.target.closest('.item-body');
+    const tap = tapRef.current;
 
-  /** הגוון של מסך לפי האינדקס שלו — להילה בדסקטופ ולתוכן העניינים */
-  const screenHue = (idx) => {
-    if (idx <= 0) return 195;
-    if (idx - 1 < items.length) return items[idx - 1].hue;
-    if (quickHits.length && idx - 1 === items.length) return HUES[items.length % HUES.length];
-    return 260;
+    if (tap.id === id && now - tap.t < DOUBLE_TAP_MS) {
+      clearTimeout(tap.timer);
+      tapRef.current = { id: null, t: 0, timer: null };
+      setBurst({ id, x: e.clientX - rect.left, y: e.clientY - rect.top, key: now });
+      setTimeout(() => setBurst((b) => (b?.key === now ? null : b)), 800);
+      toggleLike(id, { onlyLike: true });
+      return;
+    }
+
+    clearTimeout(tap.timer);
+    const timer = setTimeout(() => {
+      tapRef.current = { id: null, t: 0, timer: null };
+      if (inText) setExpanded((cur) => (cur === id ? null : id));
+      else setExpanded((cur) => (cur === id ? null : cur));
+    }, DOUBLE_TAP_MS);
+    tapRef.current = { id, t: now, timer };
   };
 
   const sendComment = async (id) => {
@@ -472,14 +420,14 @@ export default function Feed({ digest, dateRange }) {
 
   useEffect(() => () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); }, []);
 
-  /* ניווט במקלדת בדסקטופ: חצים / j / k */
+  /* ניווט במקלדת בדסקטופ: חצים / רווח / j / k, Escape סוגר */
   useEffect(() => {
     const onKey = (e) => {
-      if (openPanel || openDetail) { if (e.key === 'Escape') { setOpenPanel(null); setOpenDetail(null); } return; }
+      if (e.key === 'Escape') { setOpenPanel(null); setExpanded(null); return; }
+      if (openPanel) return;
       if (e.target.tagName === 'INPUT') return;
       const el = scrollerRef.current;
       if (!el) return;
-      /* scrollBy חלק מתנגש עם scroll-snap; גלילה אל המסך הבא עצמו עובדת */
       const step = (dir) => {
         const screens = [...el.querySelectorAll('.screen')];
         const idx = Math.round(el.scrollTop / el.clientHeight);
@@ -490,7 +438,7 @@ export default function Feed({ digest, dateRange }) {
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [openPanel, openDetail]);
+  }, [openPanel]);
 
   const onScroll = (e) => {
     const el = e.currentTarget;
@@ -507,13 +455,25 @@ export default function Feed({ digest, dateRange }) {
     }
   };
 
+  /* מעבר למסך אחר סוגר אייטם פתוח */
+  useEffect(() => { setExpanded(null); }, [currentIdx]);
+
   const backToTop = () => scrollerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
-  const openComments = (id) => { setOpenDetail(null); setOpenPanel(openPanel === id ? null : id); setCommentText(''); };
+  const openComments = (id) => { setOpenPanel(openPanel === id ? null : id); setCommentText(''); };
+
+  /** קישור קבוע לאייטם באתר — לשיתוף */
+  const itemLink = (i) => `${origin}/digest/${slug}/#it${i}`;
+
+  /** הגוון של מסך לפי האינדקס שלו — להילה בדסקטופ ולתוכן העניינים */
+  const screenHue = (idx) => {
+    if (idx <= 0) return 195;
+    if (idx - 1 < items.length) return items[idx - 1].hue;
+    if (quickHits.length && idx - 1 === items.length) return HUES[items.length % HUES.length];
+    return 260;
+  };
 
   const coverWa = waShare(`רדאר AI · גיליון ${digest.issue} — ${digest.title}`, pageUrl);
   const readMinutes = Math.max(2, Math.round((screenCount * 22) / 60));
-
-  const openItem = openDetail !== null ? items[Number(openDetail.replace('it', ''))] : null;
 
   /* תוכן העניינים לדסקטופ — שורה לכל מסך, באותו סדר של הפיד */
   const tocRows = [
@@ -540,7 +500,7 @@ export default function Feed({ digest, dateRange }) {
             <span className="toc-label">{row.label}</span>
           </button>
         ))}
-        <div className="kbd-hint">↓ או רווח — הבא · ↑ — הקודם</div>
+        <div className="kbd-hint">↓ או רווח — הבא · ↑ — הקודם · לחיצה על הטקסט — קריאה מלאה</div>
       </nav>
 
       <div className="feed-phone">
@@ -605,8 +565,14 @@ export default function Feed({ digest, dateRange }) {
             const id = `it${i}`;
             const like = likes[id] || { count: 0, mine: false };
             const cms = comments[id] || [];
+            const isOpen = expanded === id;
             return (
-              <section className={'screen item-screen' + (item.image ? ' has-photo' : '')} key={id} id={id}>
+              <section
+                className={'screen item-screen' + (item.image ? ' has-photo' : '') + (isOpen ? ' expanded' : '')}
+                key={id}
+                id={id}
+                onClick={(e) => onScreenTap(id, e)}
+              >
                 <div className="item-bg" style={{ background: hueBg(item.hue) }} />
                 {item.image && (
                   <div className="item-photo-band">
@@ -624,6 +590,12 @@ export default function Feed({ digest, dateRange }) {
                 </div>
                 <div className="item-fade" />
                 <div className="item-topline" style={{ background: `linear-gradient(90deg, oklch(0.75 0.16 ${item.hue}), transparent)` }} />
+
+                {burst?.id === id && (
+                  <div className="tap-heart" style={{ left: burst.x, top: burst.y }} aria-hidden="true">
+                    <HeartIcon filled />
+                  </div>
+                )}
 
                 <ActionRail
                   liked={like.mine}
@@ -654,25 +626,36 @@ export default function Feed({ digest, dateRange }) {
                         />
                       )}
                       {item.source}
+                      {item.via && <span className="via"> · דרך {item.via}</span>}
                     </span>
                   </div>
                   <h2 className={titleClass(item.title)}>{item.title}</h2>
-                  <p>{item.body}</p>
-                  <WhyBox item={item} clamp />
-                  <div className="item-links">
-                    <button className="link-pill detail-btn" onClick={() => { setOpenPanel(null); setOpenDetail(id); }}>
-                      פירוט ↓
-                    </button>
-                    {item.url && (
-                      <a className="link-pill" href={item.url} target="_blank" rel="noreferrer">למקור ↗</a>
+
+                  {/* הטקסט עצמו הוא הכפתור: לחיצה פותחת את הקריאה המלאה */}
+                  <div className="item-body" role="button" tabIndex={0} aria-expanded={isOpen}
+                    onKeyDown={(e) => { if (e.key === 'Enter') setExpanded(isOpen ? null : id); }}>
+                    <p>{item.body}</p>
+                    {item.why && (
+                      <div className="why-box" style={{ borderInlineStart: `3px solid oklch(0.75 0.16 ${item.hue})` }}>
+                        <div className="why-box-inner"><b>למה זה חשוב · </b>{item.why}</div>
+                      </div>
                     )}
-                    {(item.links ?? []).slice(0, 1).map((lnk, li) => (
-                      <a className="link-pill" href={lnk.url} target="_blank" rel="noreferrer" key={li}>{lnk.label} ↗</a>
-                    ))}
-                    {item.notebook && (
-                      <a className="link-pill notebook" href={item.notebook} target="_blank" rel="noreferrer">NotebookLM ↗</a>
-                    )}
+                    <div className="read-more">{isOpen ? 'סגירה ↑' : 'לחיצה לקריאה מלאה ↓'}</div>
                   </div>
+
+                  {(item.url || item.links?.length > 0 || item.notebook) && (
+                    <div className="item-links">
+                      {item.url && (
+                        <a className="link-pill" href={item.url} target="_blank" rel="noreferrer">למקור ↗</a>
+                      )}
+                      {(item.links ?? []).slice(0, isOpen ? undefined : 1).map((lnk, li) => (
+                        <a className="link-pill" href={lnk.url} target="_blank" rel="noreferrer" key={li}>{lnk.label} ↗</a>
+                      ))}
+                      {item.notebook && (
+                        <a className="link-pill notebook" href={item.notebook} target="_blank" rel="noreferrer">NotebookLM ↗</a>
+                      )}
+                    </div>
+                  )}
                 </div>
 
                 {playing === id && item.podcast && (
@@ -695,9 +678,6 @@ export default function Feed({ digest, dateRange }) {
                     cloud={firebaseEnabled}
                   />
                 )}
-                {openDetail === id && openItem && (
-                  <DetailPanel item={openItem} index={i} onClose={() => setOpenDetail(null)} />
-                )}
               </section>
             );
           })}
@@ -709,12 +689,18 @@ export default function Feed({ digest, dateRange }) {
             const cms = comments[id] || [];
             const like = likes[id] || { count: 0, mine: false };
             return (
-              <section className="screen" key={id} id={id}>
+              <section className="screen" key={id} id={id} onClick={(e) => onScreenTap(id, e)}>
                 <div className="item-bg" style={{ background: hueBg(hue) }} />
                 <div className="grid-overlay" />
                 <div className="item-num" style={{ WebkitTextStroke: `1.5px oklch(0.75 0.16 ${hue} / 0.55)` }}>⚡</div>
                 <div className="item-fade" />
                 <div className="item-topline" style={{ background: `linear-gradient(90deg, oklch(0.75 0.16 ${hue}), transparent)` }} />
+
+                {burst?.id === id && (
+                  <div className="tap-heart" style={{ left: burst.x, top: burst.y }} aria-hidden="true">
+                    <HeartIcon filled />
+                  </div>
+                )}
 
                 <ActionRail
                   liked={like.mine}
@@ -723,6 +709,7 @@ export default function Feed({ digest, dateRange }) {
                   onLike={() => toggleLike(id)}
                   onPanel={() => openComments(id)}
                   wa={waShare(`רדאר AI · גיליון ${digest.issue} — בזקים`, pageUrl)}
+                  pop={justLiked === id}
                 />
 
                 <div className="quick-list">
