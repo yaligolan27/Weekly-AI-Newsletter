@@ -28,7 +28,9 @@
 
 > אם תעברי לדומיין משלך בעתיד — צריך להוסיף גם אותו כאן.
 
-## 4. מסד הנתונים לתגובות
+## 4. מסד הנתונים לתגובות — **Firestore Database**
+
+> ⚠️ **לא Realtime Database.** בתפריט Build יש שני מסדי נתונים עם שמות דומים. הקוד עובד רק עם **Firestore Database**. אם הכותרת בראש הדף היא "Realtime Database" והכללים נראים כמו `{ "rules": { ".read": false } }` — זה המקום הלא נכון. ב-Firestore הכללים מתחילים ב-`rules_version = '2';`.
 
 1. **Build → Firestore Database → Create database**
 2. **Location**: `eur3 (europe-west)` — הכי קרוב לישראל
